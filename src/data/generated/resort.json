@@ -1,0 +1,1231 @@
+{
+  "source": "https://bukovel.com/map-new/",
+  "viewBox": "0 0 2865 1648",
+  "trails": [
+    {
+      "id": "1A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "1",
+      "bottom": 860,
+      "top": 1126,
+      "distance": 1602,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track1ARed"
+      ]
+    },
+    {
+      "id": "1B",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "1",
+      "bottom": 975,
+      "top": 1070,
+      "distance": 296,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track1BBlack"
+      ]
+    },
+    {
+      "id": "1C",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "1",
+      "bottom": 892,
+      "top": 1126,
+      "distance": 1587,
+      "notes": [
+        "Траса доступна для вечірнього катання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track1CBlue"
+      ]
+    },
+    {
+      "id": "1D",
+      "difficulty": "green",
+      "grade": "playground_slope",
+      "liftId": "1",
+      "bottom": null,
+      "top": null,
+      "distance": null,
+      "notes": [
+        "Майданчик для навчання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track1DGreen"
+      ]
+    },
+    {
+      "id": "1E",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "1",
+      "bottom": 874,
+      "top": 1127,
+      "distance": 2235,
+      "notes": [
+        "Траса доступна для вечірнього катання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track1EBlue"
+      ]
+    },
+    {
+      "id": "2A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "2R",
+      "bottom": 897,
+      "top": 1110,
+      "distance": 915,
+      "notes": [
+        "Траса доступна для вечірнього катання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track2ARed"
+      ]
+    },
+    {
+      "id": "2B",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "2R",
+      "bottom": 890,
+      "top": 1115,
+      "distance": 1459,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track2BRed"
+      ]
+    },
+    {
+      "id": "2C",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "2R",
+      "bottom": 890,
+      "top": 1115,
+      "distance": 1759,
+      "notes": [
+        "Траса доступна для вечірнього катання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track2CBlue"
+      ]
+    },
+    {
+      "id": "2D",
+      "difficulty": "green",
+      "grade": "playground_slope",
+      "liftId": "2R",
+      "bottom": null,
+      "top": null,
+      "distance": null,
+      "notes": [
+        "Майданчик для навчання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track2DGreen"
+      ]
+    },
+    {
+      "id": "3A",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "3",
+      "bottom": 902,
+      "top": 1126,
+      "distance": 2600,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track3ABlue"
+      ]
+    },
+    {
+      "id": "3D",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "3",
+      "bottom": 902,
+      "top": 1126,
+      "distance": 2000,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track3DBlue"
+      ]
+    },
+    {
+      "id": "5A",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "5",
+      "bottom": 895,
+      "top": 1105,
+      "distance": 1794,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5ABlue"
+      ]
+    },
+    {
+      "id": "5B",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "5",
+      "bottom": 1105,
+      "top": 1236,
+      "distance": 1446,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5BBlue"
+      ]
+    },
+    {
+      "id": "5C",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "5",
+      "bottom": 1105,
+      "top": 1195,
+      "distance": 340,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5CRed"
+      ]
+    },
+    {
+      "id": "5D",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "5",
+      "bottom": 905,
+      "top": 1048,
+      "distance": 700,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5DRed"
+      ]
+    },
+    {
+      "id": "5E",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "5",
+      "bottom": 970,
+      "top": 1050,
+      "distance": 960,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5EBlack"
+      ]
+    },
+    {
+      "id": "5F",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "5",
+      "bottom": 900,
+      "top": 1135,
+      "distance": 768,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5FBlack"
+      ]
+    },
+    {
+      "id": "5G",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "5",
+      "bottom": 905,
+      "top": 1235,
+      "distance": 2106,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5GRed"
+      ]
+    },
+    {
+      "id": "5H",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "5",
+      "bottom": 937,
+      "top": 1236,
+      "distance": 1549,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5HBlack"
+      ]
+    },
+    {
+      "id": "5K",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "5",
+      "bottom": 896,
+      "top": 1276,
+      "distance": 2625,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track5KBlue"
+      ]
+    },
+    {
+      "id": "7A",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "7",
+      "bottom": 897,
+      "top": 1013,
+      "distance": 1048,
+      "notes": [
+        "Траса доступна для вечірнього катання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track7ABlue"
+      ]
+    },
+    {
+      "id": "7B",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "7",
+      "bottom": 898,
+      "top": 976,
+      "distance": 867,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track7BBlue"
+      ]
+    },
+    {
+      "id": "7C",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "7",
+      "bottom": 900,
+      "top": 1000,
+      "distance": null,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track7CBlue"
+      ]
+    },
+    {
+      "id": "7D",
+      "difficulty": "green",
+      "grade": "training",
+      "liftId": "M",
+      "bottom": 900,
+      "top": 940,
+      "distance": null,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track-7D-blue"
+      ]
+    },
+    {
+      "id": "7E",
+      "difficulty": "green",
+      "grade": "playground_slope",
+      "liftId": "7",
+      "bottom": null,
+      "top": null,
+      "distance": null,
+      "notes": [
+        "Майданчик для навчання"
+      ],
+      "freeride": false,
+      "svg": [
+        "Track7EGreen"
+      ]
+    },
+    {
+      "id": "8A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "8",
+      "bottom": 932,
+      "top": 1080,
+      "distance": 936,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track8ARed"
+      ]
+    },
+    {
+      "id": "8B",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "8",
+      "bottom": 950,
+      "top": 1111,
+      "distance": 757,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track8BRed"
+      ]
+    },
+    {
+      "id": "8C",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "8",
+      "bottom": 955,
+      "top": 1105,
+      "distance": 750,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track8CRed"
+      ]
+    },
+    {
+      "id": "8D",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "8",
+      "bottom": 931,
+      "top": 1117,
+      "distance": 1420,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track8DBlue"
+      ]
+    },
+    {
+      "id": "9A",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "9",
+      "bottom": 1010,
+      "top": 1050,
+      "distance": 290,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track9ABlue"
+      ]
+    },
+    {
+      "id": "11A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "11",
+      "bottom": 1100,
+      "top": 1200,
+      "distance": 600,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11ARed"
+      ]
+    },
+    {
+      "id": "11B",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "11",
+      "bottom": 970,
+      "top": 1197,
+      "distance": 804,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11BBlack"
+      ]
+    },
+    {
+      "id": "11C",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "11",
+      "bottom": 1037,
+      "top": 1185,
+      "distance": 420,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11CBlack"
+      ]
+    },
+    {
+      "id": "11D",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "11",
+      "bottom": 932,
+      "top": 1204,
+      "distance": 1593,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11DRed"
+      ]
+    },
+    {
+      "id": "11E",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "11",
+      "bottom": 994,
+      "top": 1081,
+      "distance": 390,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11ERed"
+      ]
+    },
+    {
+      "id": "11F",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "11",
+      "bottom": 931,
+      "top": 1202,
+      "distance": 2065,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track11FBlue"
+      ]
+    },
+    {
+      "id": "12A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "12",
+      "bottom": 1153,
+      "top": 1371,
+      "distance": 1674,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track12ARed"
+      ]
+    },
+    {
+      "id": "12B",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "12",
+      "bottom": 1153,
+      "top": 1371,
+      "distance": 1600,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track12BBlue"
+      ]
+    },
+    {
+      "id": "12C",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "12",
+      "bottom": 1192,
+      "top": 1305,
+      "distance": 696,
+      "notes": [
+        "Траса для фрі-райду"
+      ],
+      "freeride": true,
+      "svg": [
+        "Track12CRed"
+      ]
+    },
+    {
+      "id": "12D",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "12",
+      "bottom": 1162,
+      "top": 1255,
+      "distance": 440,
+      "notes": [
+        "Траса для фрі-райду"
+      ],
+      "freeride": true,
+      "svg": [
+        "Track12DRed"
+      ]
+    },
+    {
+      "id": "13A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "13",
+      "bottom": 933,
+      "top": 1141,
+      "distance": 1308,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track13ARed"
+      ]
+    },
+    {
+      "id": "13B",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "13",
+      "bottom": 950,
+      "top": 1110,
+      "distance": 650,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track13BRed"
+      ]
+    },
+    {
+      "id": "13C",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "13",
+      "bottom": 940,
+      "top": 1075,
+      "distance": 570,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track13CRed"
+      ]
+    },
+    {
+      "id": "13D",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "13",
+      "bottom": 929,
+      "top": 1149,
+      "distance": 1279,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track13DRed"
+      ]
+    },
+    {
+      "id": "13E",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "13",
+      "bottom": 929,
+      "top": 1149,
+      "distance": 1338,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track13EBlue"
+      ]
+    },
+    {
+      "id": "14A",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "14",
+      "bottom": 899,
+      "top": 1189,
+      "distance": 2132,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track14ABlue"
+      ]
+    },
+    {
+      "id": "14B",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "14",
+      "bottom": 320,
+      "top": 1021,
+      "distance": 1061,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track14BBlue"
+      ]
+    },
+    {
+      "id": "15A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "15",
+      "bottom": 932,
+      "top": 1189,
+      "distance": 1528,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track15ARed"
+      ]
+    },
+    {
+      "id": "15B",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "15",
+      "bottom": 945,
+      "top": 1060,
+      "distance": 331,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track15BRed"
+      ]
+    },
+    {
+      "id": "15C",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "15",
+      "bottom": 932,
+      "top": 1090,
+      "distance": 815,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track15CRed"
+      ]
+    },
+    {
+      "id": "15D",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "15",
+      "bottom": 950,
+      "top": 1089,
+      "distance": 500,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track15DRed"
+      ]
+    },
+    {
+      "id": "15E",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "15",
+      "bottom": 927,
+      "top": 1185,
+      "distance": 1900,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track15EBlue"
+      ]
+    },
+    {
+      "id": "16A",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "16",
+      "bottom": 961,
+      "top": 1205,
+      "distance": 1741,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track16ARed"
+      ]
+    },
+    {
+      "id": "16B",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "16",
+      "bottom": 962,
+      "top": 1180,
+      "distance": 900,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track16BBlack"
+      ]
+    },
+    {
+      "id": "16C",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "16",
+      "bottom": 957,
+      "top": 1195,
+      "distance": 964,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track16CBlack"
+      ]
+    },
+    {
+      "id": "16D",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "16",
+      "bottom": 1035,
+      "top": 1205,
+      "distance": 528,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track16DBlack"
+      ]
+    },
+    {
+      "id": "16E",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "16",
+      "bottom": 961,
+      "top": 1070,
+      "distance": 580,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track16EBlack"
+      ]
+    },
+    {
+      "id": "17A",
+      "difficulty": "green",
+      "grade": "training",
+      "liftId": "17",
+      "bottom": 944,
+      "top": 1146,
+      "distance": 612,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track17ABlue"
+      ]
+    },
+    {
+      "id": "22A",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "22",
+      "bottom": 962,
+      "top": 1135,
+      "distance": 501,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track22ABlack"
+      ]
+    },
+    {
+      "id": "22B",
+      "difficulty": "black",
+      "grade": "hard",
+      "liftId": "22",
+      "bottom": 960,
+      "top": 1186,
+      "distance": 707,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track22BBlack"
+      ]
+    },
+    {
+      "id": "22C",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "22",
+      "bottom": 960,
+      "top": 1180,
+      "distance": 1700,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "Track22CBlue"
+      ]
+    },
+    {
+      "id": "B",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "2R",
+      "bottom": 895,
+      "top": 915,
+      "distance": 40,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackBBlue"
+      ]
+    },
+    {
+      "id": "D",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "5",
+      "bottom": 889,
+      "top": 940,
+      "distance": 245,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackDBlue"
+      ]
+    },
+    {
+      "id": "E",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "5",
+      "bottom": 940,
+      "top": 960,
+      "distance": 282,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackERed"
+      ]
+    },
+    {
+      "id": "F",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "8",
+      "bottom": 1075,
+      "top": 1112,
+      "distance": 294,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackFBlue"
+      ]
+    },
+    {
+      "id": "G",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "8",
+      "bottom": 1083,
+      "top": 1103,
+      "distance": 480,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackGBlue"
+      ]
+    },
+    {
+      "id": "J",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "13",
+      "bottom": 980,
+      "top": 1015,
+      "distance": 221,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackJBlue"
+      ]
+    },
+    {
+      "id": "K",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "14",
+      "bottom": 990,
+      "top": 1145,
+      "distance": 632,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackKBlue"
+      ]
+    },
+    {
+      "id": "M",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "14",
+      "bottom": 912,
+      "top": 927,
+      "distance": 200,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackMBlue"
+      ]
+    },
+    {
+      "id": "S",
+      "difficulty": "blue",
+      "grade": "easy",
+      "liftId": "14",
+      "bottom": 1021,
+      "top": 1061,
+      "distance": 324,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackSBlue"
+      ]
+    },
+    {
+      "id": "U",
+      "difficulty": "red",
+      "grade": "medium",
+      "liftId": "13",
+      "bottom": 959,
+      "top": 990,
+      "distance": 330,
+      "notes": [],
+      "freeride": false,
+      "svg": [
+        "TrackURed"
+      ]
+    }
+  ],
+  "lifts": [
+    {
+      "id": "1",
+      "key": "Lift1",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 859,
+      "top": 1127,
+      "distance": 740,
+      "svg": "Lift1R"
+    },
+    {
+      "id": "2",
+      "key": "Lift2",
+      "type": "2SEAT",
+      "typeName": "2 крісельний",
+      "traffic": 808,
+      "bottom": 900,
+      "top": 1115,
+      "distance": 1000,
+      "svg": "Lift2"
+    },
+    {
+      "id": "2R",
+      "key": "Lift2R",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 900,
+      "top": 1127,
+      "distance": 1067,
+      "svg": "Lift2R"
+    },
+    {
+      "id": "3",
+      "key": "Lift3",
+      "type": "6SEAT",
+      "typeName": "6 крісельний",
+      "traffic": null,
+      "bottom": 902,
+      "top": 1126,
+      "distance": 850,
+      "svg": "Lift3"
+    },
+    {
+      "id": "5",
+      "key": "Lift5",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2800,
+      "bottom": 910,
+      "top": 1246,
+      "distance": 1548,
+      "svg": "Lift5"
+    },
+    {
+      "id": "6",
+      "key": "Lift6",
+      "type": "BUGIL",
+      "typeName": "Бугільний витяг",
+      "traffic": 1300,
+      "bottom": 900,
+      "top": 1114,
+      "distance": 723,
+      "svg": "Lift6"
+    },
+    {
+      "id": "7",
+      "key": "Lift7",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 900,
+      "top": 1012,
+      "distance": 957,
+      "svg": "Lift7"
+    },
+    {
+      "id": "7R",
+      "key": "Lift7R",
+      "type": "BUGIL",
+      "typeName": "Бугільний витяг",
+      "traffic": null,
+      "bottom": 900,
+      "top": 1000,
+      "distance": null,
+      "svg": "Lift7R"
+    },
+    {
+      "id": "8",
+      "key": "Lift8",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 925,
+      "top": 1100,
+      "distance": 859,
+      "svg": "Lift8"
+    },
+    {
+      "id": "9",
+      "key": "Lift9",
+      "type": "3SEAT",
+      "typeName": "3 крісельний",
+      "traffic": 1800,
+      "bottom": 1000,
+      "top": 1150,
+      "distance": 1100,
+      "svg": "Lift9"
+    },
+    {
+      "id": "11",
+      "key": "Lift11",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2800,
+      "bottom": 925,
+      "top": 1210,
+      "distance": 1163,
+      "svg": "Lift11"
+    },
+    {
+      "id": "12",
+      "key": "Lift12",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 966,
+      "top": 1372,
+      "distance": 1024,
+      "svg": "Lift12"
+    },
+    {
+      "id": "13",
+      "key": "Lift13",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2800,
+      "bottom": 925,
+      "top": 1150,
+      "distance": 1181,
+      "svg": "Lift13"
+    },
+    {
+      "id": "14",
+      "key": "Lift14",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2800,
+      "bottom": 960,
+      "top": 1180,
+      "distance": 1947,
+      "svg": "Lift14"
+    },
+    {
+      "id": "15",
+      "key": "Lift15",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 925,
+      "top": 1180,
+      "distance": 1159,
+      "svg": "Lift15"
+    },
+    {
+      "id": "16",
+      "key": "Lift16",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 950,
+      "top": 1210,
+      "distance": 847,
+      "svg": "Lift16"
+    },
+    {
+      "id": "17",
+      "key": "Lift17",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 944,
+      "top": 1146,
+      "distance": 612,
+      "svg": "Lift17"
+    },
+    {
+      "id": "22",
+      "key": "Lift22",
+      "type": "4SEAT",
+      "typeName": "4 крісельний",
+      "traffic": 2400,
+      "bottom": 960,
+      "top": 1180,
+      "distance": 652,
+      "svg": "Lift22"
+    },
+    {
+      "id": "M",
+      "key": "LiftM",
+      "type": "BUGIL",
+      "typeName": "Бугільний витяг",
+      "traffic": null,
+      "bottom": 900,
+      "top": 950,
+      "distance": null,
+      "svg": "LiftM"
+    }
+  ]
+}
