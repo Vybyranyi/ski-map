@@ -7,6 +7,7 @@ import { drop, fmtDistance, fmtMeters } from "@/lib/format";
 import { exportPlans, parseImport } from "@/lib/plan-io";
 import { planStats } from "@/lib/plan-stats";
 import { selectActivePlan, usePlans, type PlanItem, type PlanItemType } from "@/lib/plans-store";
+import { useStatus } from "@/lib/status-store";
 
 type Props = {
   onClose: () => void;
@@ -70,6 +71,7 @@ function Row({
   onLocate: Props["onLocate"];
 }) {
   const store = usePlans.getState();
+  const state = useStatus((s) => (item.type === "trail" ? s.data?.trails[item.ref] : s.data?.lifts[item.ref])?.state);
   return (
     <li className="flex items-center gap-1 border-b border-black/5 last:border-0 dark:border-white/10">
       <button
@@ -89,6 +91,11 @@ function Row({
         <span className={`flex min-w-0 items-center gap-2.5 ${item.done ? "opacity-45" : ""}`}>
           <ItemInfo item={item} />
         </span>
+        {state === "closed" && !item.done && (
+          <span className="shrink-0 rounded-full bg-red-500/15 px-2 py-0.5 text-[11px] font-medium text-red-600 dark:text-red-400">
+            закрито
+          </span>
+        )}
       </button>
 
       {edit ? (
@@ -123,6 +130,12 @@ export function PlanPanel({ onClose, onLocate }: Props) {
   const fileInput = useRef<HTMLInputElement>(null);
   const store = usePlans.getState();
   const stats = plan ? planStats(plan) : null;
+  const status = useStatus((s) => s.data);
+  const closedLeft = plan
+    ? plan.items.filter(
+        (i) => !i.done && (i.type === "trail" ? status?.trails[i.ref] : status?.lifts[i.ref])?.state === "closed",
+      ).length
+    : 0;
 
   const runImport = (text: string) => {
     const result = parseImport(text);
@@ -222,6 +235,11 @@ export function PlanPanel({ onClose, onLocate }: Props) {
               <div className="mt-1 text-xs text-zinc-500">
                 Траси: {fmtDistance(stats.trailMetersDone)} · підйомників: {stats.liftRidesDone}
               </div>
+              {closedLeft > 0 && (
+                <div className="mt-2 rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-700 dark:text-red-300">
+                  Зараз закрито серед непройдених: {closedLeft}
+                </div>
+              )}
             </div>
 
             <ul className="min-h-24 flex-1 overflow-y-auto px-4">

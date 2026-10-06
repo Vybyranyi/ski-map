@@ -5,6 +5,9 @@ import type { Difficulty } from "./difficulty";
 type FiltersState = {
   /** Складності, які сховано на карті */
   hidden: Difficulty[];
+  /** Ховати закриті траси й підйомники (за живим статусом) */
+  onlyOpen: boolean;
+  setOnlyOpen: (v: boolean) => void;
   toggle: (d: Difficulty) => void;
   /** Знову показує вказані складності */
   show: (ds: Difficulty[]) => void;
@@ -15,6 +18,8 @@ export const useFilters = create<FiltersState>()(
   persist(
     (set) => ({
       hidden: [],
+      onlyOpen: false,
+      setOnlyOpen: (onlyOpen) => set({ onlyOpen }),
       toggle: (d) =>
         set((s) => ({
           hidden: s.hidden.includes(d)
@@ -27,7 +32,7 @@ export const useFilters = create<FiltersState>()(
       name: "ski-map:filters",
       version: 1,
       storage: createJSONStorage(() => localStorage),
-      partialize: (s) => ({ hidden: s.hidden }),
+      partialize: (s) => ({ hidden: s.hidden, onlyOpen: s.onlyOpen }),
       skipHydration: true,
     },
   ),

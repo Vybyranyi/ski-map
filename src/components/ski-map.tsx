@@ -16,6 +16,7 @@ import {
 import { FilterBar } from "@/components/filter-bar";
 import { InfoSheet } from "@/components/info-sheet";
 import { PlanPanel } from "@/components/plan-panel";
+import { StatusPill } from "@/components/status-pill";
 import {
   MAP_HEIGHT,
   MAP_WIDTH,
@@ -26,8 +27,10 @@ import {
 } from "@/data/resort";
 import { DIFFICULTIES, type Difficulty } from "@/lib/difficulty";
 import { useFilters } from "@/lib/filters-store";
-import { addHitAreas, applyVisibility, selectionSelector, type Selection } from "@/lib/map-dom";
+import { statusOf, type LiveStatus } from "@/lib/live-status";
+import { addHitAreas, applyStatus, applyVisibility, selectionSelector, type Selection } from "@/lib/map-dom";
 import { selectActivePlan, usePlans } from "@/lib/plans-store";
+import { useStatus } from "@/lib/status-store";
 
 const MAX_SCALE = 3;
 const DEFAULT_MIN_ZOOM = 0.42; // на телефоні відкриваємо ближче, ніж «весь курорт»
@@ -51,7 +54,13 @@ function centerOn(size: Size, scale: number) {
   };
 }
 
-function isSelectionVisible(sel: Selection, hidden: ReadonlySet<Difficulty>) {
+function isSelectionVisible(
+  sel: Selection,
+  hidden: ReadonlySet<Difficulty>,
+  onlyOpen: boolean,
+  status: LiveStatus | null,
+) {
+  if (onlyOpen && statusOf(status, sel.type, sel.id)?.state === "closed") return false;
   if (sel.type === "trail") {
     const t = trailById.get(sel.id);
     return !!t && !hidden.has(t.difficulty);
@@ -107,6 +116,8 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const hiddenList = useFilters((s) => s.hidden);
   const toggleFilter = useFilters((s) => s.toggle);
   const hidden = useMemo(() => new Set(hiddenList), [hiddenList]);
+  const onlyOpen = useFilters((s) => s.onlyOpen);
+  const status = useStatus((s) => s.data);
 
   const plan = usePlans(selectActivePlan);
   // ключ "trail:5K" → усі входження пройдені?
@@ -120,13 +131,31 @@ export function SkiMap({ overlay }: { overlay: string }) {
   }, [plan]);
 
   const view = useMemo(() => (size ? computeView(size) : null), [size]);
-  const activeSelection = selection && isSelectionVisible(selection, hidden) ? selection : null;
+  const activeSelection = selection && isSelectionVisible(selection, hidden, onlyOpen, status) ? selection : null;
   const selectionKey = activeSelection ? `${activeSelection.type}:${activeSelection.id}` : "";
 
-  // збережені фільтри й плани з localStorage (skipHydration у сторах)
+  // збережене з localStorage (skipHydration у сторах)
   useEffect(() => {
     void useFilters.persist.rehydrate();
     void usePlans.persist.rehydrate();
+  }, []);
+
+  // живий статус: одразу з кешу, далі оновлюємо при старті, поверненні у вкладку, появі мережі й раз на 2 хв
+  useEffect(() => {
+    let cancelled = false;
+    const refresh = () => {
+      if (!cancelled && document.visibilityState === "visible") void useStatus.getState().refresh();
+    };
+    void Promise.resolve(useStatus.persist.rehydrate()).then(refresh);
+    const timer = setInterval(refresh, 120_000);
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("online", refresh);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("online", refresh);
+    };
   }, []);
 
   // розмір в'юпорту (від нього залежить початковий зум)
@@ -150,8 +179,13 @@ export function SkiMap({ overlay }: { overlay: string }) {
   }, [svgEl]);
 
   useEffect(() => {
-    if (svgEl) applyVisibility(svgEl, hidden);
-  }, [svgEl, hidden]);
+    if (svgEl) applyStatus(svgEl, status);
+  }, [svgEl, status]);
+
+  // після applyStatus: «лише відкриті» читає data-status
+  useEffect(() => {
+    if (svgEl) applyVisibility(svgEl, hidden, onlyOpen);
+  }, [svgEl, hidden, onlyOpen, status]);
 
   // підсвітка вибраного
   useEffect(() => {
@@ -246,12 +280,13 @@ export function SkiMap({ overlay }: { overlay: string }) {
   // «Показати на карті» з плану: повертаємо приховану складність, інакше елемент не буде видно
   const locate = (type: Selection["type"], id: string) => {
     const sel: Selection = { type, id };
-    if (!isSelectionVisible(sel, hidden)) {
+    if (!isSelectionVisible(sel, hidden, onlyOpen, status)) {
       const diffs = (type === "trail" ? [trailById.get(id)] : (trailsByLift.get(id) ?? []))
         .map((t) => t?.difficulty)
         .filter((d): d is Difficulty => !!d);
       const easiest = DIFFICULTIES.find((d) => diffs.includes(d));
       if (easiest) useFilters.getState().show([easiest]);
+      if (onlyOpen && statusOf(status, type, id)?.state === "closed") useFilters.getState().setOnlyOpen(false);
     }
     setSelection(sel);
     setPlanOpen(false);
@@ -333,6 +368,10 @@ export function SkiMap({ overlay }: { overlay: string }) {
         )}
       </button>
 
+      <div className="absolute left-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+3.25rem)]">
+        <StatusPill />
+      </div>
+
       <button
         type="button"
         onClick={resetView}
@@ -349,8 +388,11 @@ export function SkiMap({ overlay }: { overlay: string }) {
           <div className="pointer-events-auto">
             <InfoSheet
               selection={activeSelection}
-              hidden={hidden}
+              isTrailHidden={(t) =>
+                hidden.has(t.difficulty) || (onlyOpen && statusOf(status, "trail", t.id)?.state === "closed")
+              }
               planCount={planCount}
+              status={statusOf(status, activeSelection.type, activeSelection.id)}
               onAddToPlan={() => usePlans.getState().addItem(activeSelection.type, activeSelection.id)}
               onClose={() => setSelection(null)}
               onSelect={setSelection}

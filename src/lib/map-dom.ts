@@ -1,5 +1,6 @@
 import type { Difficulty } from "./difficulty";
 import { trailsByLift } from "@/data/resort";
+import type { LiveStatus } from "./live-status";
 
 export type Selection = { type: "trail" | "lift"; id: string };
 
@@ -28,8 +29,23 @@ export function addHitAreas(svg: SVGSVGElement) {
   });
 }
 
-/** Ховає траси, з'єднання й підйомники відповідно до прихованих складностей. */
-export function applyVisibility(svg: SVGSVGElement, hidden: ReadonlySet<Difficulty>) {
+/** Записує живий статус у data-status груп (без статусу атрибут прибирається). */
+export function applyStatus(svg: SVGSVGElement, status: LiveStatus | null) {
+  svg.querySelectorAll<SVGElement>(GROUPS).forEach((el) => {
+    const st =
+      el.dataset.kind === "lift"
+        ? status?.lifts[el.dataset.lift ?? ""]
+        : status?.trails[(el.dataset.trail ?? "").split(" ")[0]];
+    if (st) el.dataset.status = st.state;
+    else delete el.dataset.status;
+  });
+}
+
+/**
+ * Ховає траси, з'єднання й підйомники за прихованими складностями та (за потреби)
+ * за статусом «закрито». Статус береться з data-status, тож applyStatus має виконатись раніше.
+ */
+export function applyVisibility(svg: SVGSVGElement, hidden: ReadonlySet<Difficulty>, onlyOpen: boolean) {
   svg.querySelectorAll<SVGElement>(GROUPS).forEach((el) => {
     let hide: boolean;
     if (el.dataset.kind === "lift") {
@@ -40,6 +56,7 @@ export function applyVisibility(svg: SVGSVGElement, hidden: ReadonlySet<Difficul
       const diffs = (el.dataset.diff ?? "").split(" ").filter(Boolean) as Difficulty[];
       hide = diffs.length > 0 && diffs.every((d) => hidden.has(d));
     }
+    if (onlyOpen && el.dataset.status === "closed") hide = true;
     el.toggleAttribute("data-hidden", hide);
   });
 }

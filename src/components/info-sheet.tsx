@@ -1,9 +1,10 @@
 "use client";
 
 import { LiftBadge, TrailBadge } from "@/components/badges";
-import { DIFFICULTY_META, type Difficulty } from "@/lib/difficulty";
+import { DIFFICULTY_META } from "@/lib/difficulty";
 import { liftById, trailById, trailsByLift, type Lift, type Trail } from "@/data/resort";
-import { drop, fmtDistance } from "@/lib/format";
+import { drop, fmtDistance, fmtTime } from "@/lib/format";
+import type { ItemStatus } from "@/lib/live-status";
 import type { Selection } from "@/lib/map-dom";
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -11,6 +12,27 @@ function Stat({ label, value }: { label: string; value: string }) {
     <div className="min-w-0">
       <div className="text-[11px] text-zinc-500">{label}</div>
       <div className="truncate text-sm font-semibold tabular-nums">{value}</div>
+    </div>
+  );
+}
+
+const STATE_LABEL = { open: "Відкрито", closed: "Закрито", waiting: "Очікує відкриття" } as const;
+const STATE_DOT = { open: "bg-green-500", closed: "bg-red-500", waiting: "bg-amber-400" } as const;
+
+function StatusLine({ status }: { status: ItemStatus }) {
+  const schedule =
+    status.from && status.to
+      ? ` · ${fmtTime(status.from)}–${fmtTime(status.to)}`
+      : status.state === "open" && status.to
+        ? ` · до ${fmtTime(status.to)}`
+        : status.state !== "open" && status.from
+          ? ` · з ${fmtTime(status.from)}`
+          : "";
+  return (
+    <div className="mt-3 flex items-center gap-2 text-sm">
+      <span className={`size-2.5 rounded-full ${STATE_DOT[status.state]}`} />
+      <span className="font-medium">{STATE_LABEL[status.state]}</span>
+      <span className="text-zinc-500">{schedule}</span>
     </div>
   );
 }
@@ -55,14 +77,14 @@ function TrailInfo({ trail, onSelect }: { trail: Trail; onSelect: (s: Selection)
 
 function LiftInfo({
   lift,
-  hidden,
+  isTrailHidden,
   onSelect,
 }: {
   lift: Lift;
-  hidden: ReadonlySet<Difficulty>;
+  isTrailHidden: (t: Trail) => boolean;
   onSelect: (s: Selection) => void;
 }) {
-  const served = (trailsByLift.get(lift.id) ?? []).filter((t) => !hidden.has(t.difficulty));
+  const served = (trailsByLift.get(lift.id) ?? []).filter((t) => !isTrailHidden(t));
   const d = drop(lift);
   return (
     <>
@@ -96,15 +118,18 @@ function LiftInfo({
 
 type Props = {
   selection: Selection;
-  hidden: ReadonlySet<Difficulty>;
+  /** Чи сховано трасу на карті (фільтри складності / «лише відкриті») */
+  isTrailHidden: (t: Trail) => boolean;
   /** скільки разів ця траса/підйомник уже є в активному плані */
   planCount: number;
+  /** живий статус вибраного елемента (якщо відомий) */
+  status?: ItemStatus;
   onAddToPlan: () => void;
   onClose: () => void;
   onSelect: (s: Selection) => void;
 };
 
-export function InfoSheet({ selection, hidden, planCount, onAddToPlan, onClose, onSelect }: Props) {
+export function InfoSheet({ selection, isTrailHidden, planCount, status, onAddToPlan, onClose, onSelect }: Props) {
   const trail = selection.type === "trail" ? trailById.get(selection.id) : undefined;
   const lift = selection.type === "lift" ? liftById.get(selection.id) : undefined;
   if (!trail && !lift) return null;
@@ -122,8 +147,9 @@ export function InfoSheet({ selection, hidden, planCount, onAddToPlan, onClose, 
       {trail ? (
         <TrailInfo trail={trail} onSelect={onSelect} />
       ) : (
-        lift && <LiftInfo lift={lift} hidden={hidden} onSelect={onSelect} />
+        lift && <LiftInfo lift={lift} isTrailHidden={isTrailHidden} onSelect={onSelect} />
       )}
+      {status && <StatusLine status={status} />}
       <button
         type="button"
         onClick={onAddToPlan}

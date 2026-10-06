@@ -118,6 +118,34 @@ body {
   stroke-width: calc(16px / var(--zoom)) !important;
 }
 
+/* живий статус: закрите — приглушене й пунктиром, без статусу — як є */
+.ski-map :is([data-kind="trail"], [data-kind="connector"])[data-status="closed"] {
+  opacity: 0.45;
+}
+.ski-map
+  :is([data-kind="trail"], [data-kind="connector"])[data-status="closed"]
+  :is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]),
+.ski-map
+  :is([data-kind="trail"], [data-kind="connector"])[data-status="closed"]:is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]) {
+  stroke-dasharray: calc(7px / var(--zoom)) calc(5px / var(--zoom));
+}
+/* значок підйомника: колір за статусом (запечений у SVG колір — зі знімка, тож не довіряємо йому) */
+.ski-map [data-kind="lift"] .lift-label > rect:first-child {
+  fill: #9ca3af;
+}
+.ski-map [data-kind="lift"][data-status="open"] .lift-label > rect:first-child {
+  fill: #25e47a;
+}
+.ski-map [data-kind="lift"][data-status="closed"] .lift-label > rect:first-child {
+  fill: #ff7300;
+}
+.ski-map [data-kind="lift"][data-status="waiting"] .lift-label > rect:first-child {
+  fill: #f59e0b;
+}
+.ski-map [data-kind="lift"][data-status="closed"] {
+  opacity: 0.55;
+}
+
 /* план: заплановане товще й з бурштиновим ореолом, пройдене — світліше */
 .ski-map [data-planned]:is([data-kind="trail"], [data-kind="connector"]) :is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]),
 .ski-map [data-planned]:is([data-kind="trail"], [data-kind="connector"]):is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]) {
