@@ -118,6 +118,23 @@ body {
   stroke-width: calc(16px / var(--zoom)) !important;
 }
 
+/* план: заплановане товще й з бурштиновим ореолом, пройдене — світліше */
+.ski-map [data-planned]:is([data-kind="trail"], [data-kind="connector"]) :is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]),
+.ski-map [data-planned]:is([data-kind="trail"], [data-kind="connector"]):is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]) {
+  stroke-width: max(4px, calc(5.5px / var(--zoom)));
+}
+.ski-map [data-planned][data-kind="lift"] .animated {
+  stroke: #f59e0b;
+  stroke-width: max(4px, calc(4px / var(--zoom)));
+}
+.ski-map [data-planned] {
+  filter: drop-shadow(0 0 2.5px rgb(251 191 36 / 0.95));
+}
+.ski-map [data-planned][data-done] {
+  opacity: 0.5;
+  filter: none;
+}
+
 /* вибір: решту приглушуємо, вибране потовщуємо */
 .ski-map [data-kind] {
   transition: opacity 0.15s;

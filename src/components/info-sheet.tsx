@@ -1,14 +1,10 @@
 "use client";
 
+import { LiftBadge, TrailBadge } from "@/components/badges";
 import { DIFFICULTY_META, type Difficulty } from "@/lib/difficulty";
 import { liftById, trailById, trailsByLift, type Lift, type Trail } from "@/data/resort";
+import { drop, fmtDistance } from "@/lib/format";
 import type { Selection } from "@/lib/map-dom";
-
-const fmtDistance = (m: number | null) =>
-  m == null ? "—" : m >= 1000 ? `${(m / 1000).toFixed(1).replace(".", ",")} км` : `${m} м`;
-
-const drop = (x: { top: number | null; bottom: number | null }) =>
-  x.top != null && x.bottom != null ? x.top - x.bottom : null;
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
@@ -16,19 +12,6 @@ function Stat({ label, value }: { label: string; value: string }) {
       <div className="text-[11px] text-zinc-500">{label}</div>
       <div className="truncate text-sm font-semibold tabular-nums">{value}</div>
     </div>
-  );
-}
-
-function TrailBadge({ trail, size = "md" }: { trail: Trail; size?: "sm" | "md" }) {
-  return (
-    <span
-      className={`inline-grid place-items-center rounded-full font-bold text-white ${
-        size === "md" ? "size-10 text-sm" : "size-7 text-xs"
-      }`}
-      style={{ background: DIFFICULTY_META[trail.difficulty].color }}
-    >
-      {trail.id}
-    </span>
   );
 }
 
@@ -84,9 +67,7 @@ function LiftInfo({
   return (
     <>
       <div className="flex items-center gap-3">
-        <span className="inline-grid size-10 place-items-center rounded-lg bg-zinc-700 text-sm font-bold text-white">
-          {lift.id}
-        </span>
+        <LiftBadge id={lift.id} />
         <div>
           <div className="font-semibold">Підйомник {lift.id}</div>
           <div className="text-sm text-zinc-500">{lift.typeName ?? lift.type}</div>
@@ -116,11 +97,14 @@ function LiftInfo({
 type Props = {
   selection: Selection;
   hidden: ReadonlySet<Difficulty>;
+  /** скільки разів ця траса/підйомник уже є в активному плані */
+  planCount: number;
+  onAddToPlan: () => void;
   onClose: () => void;
   onSelect: (s: Selection) => void;
 };
 
-export function InfoSheet({ selection, hidden, onClose, onSelect }: Props) {
+export function InfoSheet({ selection, hidden, planCount, onAddToPlan, onClose, onSelect }: Props) {
   const trail = selection.type === "trail" ? trailById.get(selection.id) : undefined;
   const lift = selection.type === "lift" ? liftById.get(selection.id) : undefined;
   if (!trail && !lift) return null;
@@ -140,6 +124,16 @@ export function InfoSheet({ selection, hidden, onClose, onSelect }: Props) {
       ) : (
         lift && <LiftInfo lift={lift} hidden={hidden} onSelect={onSelect} />
       )}
+      <button
+        type="button"
+        onClick={onAddToPlan}
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-sm font-semibold text-white active:bg-blue-700"
+      >
+        + Додати в план
+        {planCount > 0 && (
+          <span className="rounded-full bg-white/25 px-2 py-0.5 text-xs font-medium">вже ×{planCount}</span>
+        )}
+      </button>
     </div>
   );
 }

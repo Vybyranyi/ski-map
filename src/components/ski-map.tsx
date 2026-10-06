@@ -15,6 +15,7 @@ import {
 } from "react-zoom-pan-pinch";
 import { FilterBar } from "@/components/filter-bar";
 import { InfoSheet } from "@/components/info-sheet";
+import { PlanPanel } from "@/components/plan-panel";
 import {
   MAP_HEIGHT,
   MAP_WIDTH,
@@ -23,9 +24,10 @@ import {
   trailById,
   trailsByLift,
 } from "@/data/resort";
-import type { Difficulty } from "@/lib/difficulty";
+import { DIFFICULTIES, type Difficulty } from "@/lib/difficulty";
 import { useFilters } from "@/lib/filters-store";
 import { addHitAreas, applyVisibility, selectionSelector, type Selection } from "@/lib/map-dom";
+import { selectActivePlan, usePlans } from "@/lib/plans-store";
 
 const MAX_SCALE = 3;
 const DEFAULT_MIN_ZOOM = 0.42; // на телефоні відкриваємо ближче, ніж «весь курорт»
@@ -100,18 +102,31 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const [size, setSize] = useState<Size | null>(null);
   const [svgEl, setSvgEl] = useState<SVGSVGElement | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
+  const [planOpen, setPlanOpen] = useState(false);
 
   const hiddenList = useFilters((s) => s.hidden);
   const toggleFilter = useFilters((s) => s.toggle);
   const hidden = useMemo(() => new Set(hiddenList), [hiddenList]);
 
+  const plan = usePlans(selectActivePlan);
+  // ключ "trail:5K" → усі входження пройдені?
+  const planMarks = useMemo(() => {
+    const marks = new Map<string, boolean>();
+    for (const i of plan?.items ?? []) {
+      const key = `${i.type}:${i.ref}`;
+      marks.set(key, (marks.get(key) ?? true) && i.done);
+    }
+    return marks;
+  }, [plan]);
+
   const view = useMemo(() => (size ? computeView(size) : null), [size]);
   const activeSelection = selection && isSelectionVisible(selection, hidden) ? selection : null;
   const selectionKey = activeSelection ? `${activeSelection.type}:${activeSelection.id}` : "";
 
-  // збережені фільтри з localStorage (skipHydration у сторі)
+  // збережені фільтри й плани з localStorage (skipHydration у сторах)
   useEffect(() => {
     void useFilters.persist.rehydrate();
+    void usePlans.persist.rehydrate();
   }, []);
 
   // розмір в'юпорту (від нього залежить початковий зум)
@@ -152,6 +167,26 @@ export function SkiMap({ overlay }: { overlay: string }) {
       root?.removeAttribute("data-has-selection");
     };
   }, [svgEl, selectionKey]);
+
+  // елементи активного плану: товщі лінії, пройдені — світліші
+  useEffect(() => {
+    if (!svgEl) return;
+    const nodes: Element[] = [];
+    planMarks.forEach((allDone, key) => {
+      const [type, id] = key.split(":") as [Selection["type"], string];
+      svgEl.querySelectorAll(selectionSelector({ type, id })).forEach((n) => {
+        n.setAttribute("data-planned", "");
+        n.toggleAttribute("data-done", allDone);
+        nodes.push(n);
+      });
+    });
+    return () => {
+      nodes.forEach((n) => {
+        n.removeAttribute("data-planned");
+        n.removeAttribute("data-done");
+      });
+    };
+  }, [svgEl, planMarks]);
 
   useEffect(() => () => clearTimeout(zoomTimer.current), []);
 
@@ -207,6 +242,25 @@ export function SkiMap({ overlay }: { overlay: string }) {
       rootRef.current?.style.setProperty("--zoom", state.scale.toFixed(3));
     }, 80);
   }, []);
+
+  // «Показати на карті» з плану: повертаємо приховану складність, інакше елемент не буде видно
+  const locate = (type: Selection["type"], id: string) => {
+    const sel: Selection = { type, id };
+    if (!isSelectionVisible(sel, hidden)) {
+      const diffs = (type === "trail" ? [trailById.get(id)] : (trailsByLift.get(id) ?? []))
+        .map((t) => t?.difficulty)
+        .filter((d): d is Difficulty => !!d);
+      const easiest = DIFFICULTIES.find((d) => diffs.includes(d));
+      if (easiest) useFilters.getState().show([easiest]);
+    }
+    setSelection(sel);
+    setPlanOpen(false);
+  };
+
+  const planCount = activeSelection
+    ? (plan?.items.filter((i) => i.type === activeSelection.type && i.ref === activeSelection.id).length ?? 0)
+    : 0;
+  const planDone = plan?.items.filter((i) => i.done).length ?? 0;
 
   const resetView = () => {
     if (!view || !size) return;
@@ -265,6 +319,22 @@ export function SkiMap({ overlay }: { overlay: string }) {
 
       <button
         type="button"
+        onClick={() => setPlanOpen(true)}
+        className="absolute left-3 top-[max(0.75rem,env(safe-area-inset-top))] flex h-11 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-semibold text-zinc-800 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-white/10"
+      >
+        <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
+        </svg>
+        План
+        {plan && plan.items.length > 0 && (
+          <span className="tabular-nums text-zinc-500">
+            {planDone}/{plan.items.length}
+          </span>
+        )}
+      </button>
+
+      <button
+        type="button"
         onClick={resetView}
         aria-label="Показати весь курорт"
         className="absolute right-3 top-[max(0.75rem,env(safe-area-inset-top))] grid size-11 place-items-center rounded-full bg-white/95 text-zinc-700 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-200 dark:ring-white/10"
@@ -277,13 +347,21 @@ export function SkiMap({ overlay }: { overlay: string }) {
       <div ref={bottomStackRef} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {activeSelection && (
           <div className="pointer-events-auto">
-            <InfoSheet selection={activeSelection} hidden={hidden} onClose={() => setSelection(null)} onSelect={setSelection} />
+            <InfoSheet
+              selection={activeSelection}
+              hidden={hidden}
+              planCount={planCount}
+              onAddToPlan={() => usePlans.getState().addItem(activeSelection.type, activeSelection.id)}
+              onClose={() => setSelection(null)}
+              onSelect={setSelection}
+            />
           </div>
         )}
         <div className="pointer-events-auto rounded-2xl bg-white/95 p-1 shadow-lg ring-1 ring-black/5 backdrop-blur dark:bg-zinc-900/95 dark:ring-white/10">
           <FilterBar hidden={hiddenList} onToggle={toggleFilter} />
         </div>
       </div>
+      {planOpen && <PlanPanel onClose={() => setPlanOpen(false)} onLocate={locate} />}
     </div>
   );
 }

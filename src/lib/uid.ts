@@ -1,0 +1,7 @@
+/** randomUUID недоступний на http (напр., тест із телефона по LAN), тож є запасний варіант */
+export function uid(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
