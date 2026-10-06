@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: MapFont;
+  src: url("/map/map-font.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f5f7;
+  --foreground: #18181b;
+
+  /* кольори складностей: і на карті, і в інтерфейсі */
+  --diff-green: #16a34a;
+  --diff-blue: #2563eb;
+  --diff-red: #dc2626;
+  --diff-black: #1f2937;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0b0b0d;
     --foreground: #ededed;
   }
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- карта ---------- */
+
+.ski-map {
+  /* оновлюється з JS при зумі: лінії мають сталу товщину на екрані */
+  --zoom: 1;
+  --line: #ffa500;
+}
+
+.ski-map [data-hidden] {
+  display: none;
+}
+
+.ski-map [data-kind="marker"] {
+  pointer-events: none;
+}
+
+/* колір за складністю; чорний — останнім, тож у змішаних з'єднаннях виграє найскладніший */
+.ski-map [data-diff~="green"] {
+  --line: var(--diff-green);
+}
+.ski-map [data-diff~="blue"] {
+  --line: var(--diff-blue);
+}
+.ski-map [data-diff~="red"] {
+  --line: var(--diff-red);
+}
+.ski-map [data-diff~="black"] {
+  --line: var(--diff-black);
+}
+
+/* лінії трас: оригінальний помаранчевий (і світло-помаранчевий у навчальних зон) → колір складності.
+   stroke може стояти на самій групі, а не лише на нащадках */
+.ski-map
+  :is([data-kind="trail"], [data-kind="connector"]):is(
+    [stroke="#FFA500"],
+    [stroke="rgba(255, 209, 116, 1)"]
+  ),
+.ski-map
+  :is([data-kind="trail"], [data-kind="connector"])
+  :is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]) {
+  stroke: var(--line);
+  stroke-width: max(2px, calc(3px / var(--zoom)));
+}
+
+/* мітки з назвою траси: зовнішнє кільце світліше, внутрішнє — колір складності */
+.ski-map [data-kind="trail"] .label circle:nth-of-type(1) {
+  fill: color-mix(in srgb, var(--line) 35%, white);
+}
+.ski-map [data-kind="trail"] .label circle:nth-of-type(2) {
+  fill: var(--line);
+}
+
+/* підйомники: канат лишається сірим, але не тоншає при віддаленні */
+.ski-map [data-kind="lift"] .animated {
+  stroke-width: max(3px, calc(2.5px / var(--zoom)));
+}
+
+/* прозорі «хітбокси» для тапів */
+.ski-map .hit {
+  fill: none !important;
+  stroke: transparent !important;
+  stroke-width: calc(30px / var(--zoom)) !important;
+  stroke-dasharray: none !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: stroke;
+  animation: none !important;
+}
+
+/* канат підйомника лежить поверх трас — його зона тапу вужча */
+.ski-map [data-kind="lift"] .hit {
+  stroke-width: calc(16px / var(--zoom)) !important;
+}
+
+/* вибір: решту приглушуємо, вибране потовщуємо */
+.ski-map [data-kind] {
+  transition: opacity 0.15s;
+}
+.ski-map[data-has-selection] [data-kind]:not([data-selected], [data-kind="marker"]) {
+  opacity: 0.22;
+}
+.ski-map [data-selected]:is([data-kind="trail"], [data-kind="connector"]) :is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]),
+.ski-map [data-selected]:is([data-kind="trail"], [data-kind="connector"]):is([stroke="#FFA500"], [stroke="rgba(255, 209, 116, 1)"]) {
+  stroke-width: max(4px, calc(6px / var(--zoom)));
+}
+.ski-map [data-selected][data-kind="lift"] .animated {
+  stroke-width: max(5px, calc(5px / var(--zoom)));
+}
+.ski-map [data-selected] {
+  filter: drop-shadow(0 0 3px rgb(255 255 255 / 0.9));
 }
