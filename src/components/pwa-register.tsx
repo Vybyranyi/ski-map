@@ -44,12 +44,12 @@ export function PwaRegister() {
 
   if (!waiting) return null;
   return (
-    <div className="fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-40 flex items-center justify-between gap-3 rounded-2xl bg-blue-600 px-4 py-3 text-sm text-white shadow-lg">
+    <div role="status" className="fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-40 mx-auto flex max-w-md items-center justify-between gap-3 rounded-2xl bg-ink py-1.5 pl-4 pr-1.5 text-sm text-surface shadow-float">
       <span>Доступна нова версія</span>
       <button
         type="button"
         onClick={() => waiting.postMessage("SKIP_WAITING")}
-        className="rounded-lg bg-white/20 px-3 py-1.5 font-semibold active:bg-white/30"
+        className="h-11 rounded-full bg-surface px-4 font-medium text-ink active:opacity-80"
       >
         Оновити
       </button>

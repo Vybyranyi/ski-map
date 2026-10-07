@@ -148,22 +148,24 @@ export function parseForecast(json: unknown, now: number): Weather | null {
 
 // ---------- відображення ----------
 
-/** WMO weather code → підпис і значок */
-export function describeCode(code: number): { label: string; icon: string } {
-  if (code === 0) return { label: "Ясно", icon: "☀️" };
-  if (code === 1) return { label: "Переважно ясно", icon: "🌤️" };
-  if (code === 2) return { label: "Мінлива хмарність", icon: "⛅" };
-  if (code === 3) return { label: "Хмарно", icon: "☁️" };
-  if (code === 45 || code === 48) return { label: "Туман", icon: "🌫️" };
-  if (code >= 51 && code <= 57) return { label: "Морось", icon: "🌦️" };
-  if (code >= 61 && code <= 65) return { label: "Дощ", icon: "🌧️" };
-  if (code === 66 || code === 67) return { label: "Крижаний дощ", icon: "🌧️" };
-  if (code >= 71 && code <= 75) return { label: "Сніг", icon: "🌨️" };
-  if (code === 77) return { label: "Снігова крупа", icon: "🌨️" };
-  if (code >= 80 && code <= 82) return { label: "Злива", icon: "🌧️" };
-  if (code === 85 || code === 86) return { label: "Снігопад", icon: "❄️" };
-  if (code >= 95) return { label: "Гроза", icon: "⛈️" };
-  return { label: "—", icon: "🌡️" };
+export type WeatherKind = "clear" | "partly" | "cloud" | "fog" | "rain" | "snow" | "storm";
+
+/** WMO weather code → підпис і тип значка */
+export function describeCode(code: number): { label: string; kind: WeatherKind } {
+  if (code === 0) return { label: "Ясно", kind: "clear" };
+  if (code === 1) return { label: "Переважно ясно", kind: "clear" };
+  if (code === 2) return { label: "Мінлива хмарність", kind: "partly" };
+  if (code === 3) return { label: "Хмарно", kind: "cloud" };
+  if (code === 45 || code === 48) return { label: "Туман", kind: "fog" };
+  if (code >= 51 && code <= 57) return { label: "Морось", kind: "rain" };
+  if (code >= 61 && code <= 65) return { label: "Дощ", kind: "rain" };
+  if (code === 66 || code === 67) return { label: "Крижаний дощ", kind: "rain" };
+  if (code >= 71 && code <= 75) return { label: "Сніг", kind: "snow" };
+  if (code === 77) return { label: "Снігова крупа", kind: "snow" };
+  if (code >= 80 && code <= 82) return { label: "Злива", kind: "rain" };
+  if (code === 85 || code === 86) return { label: "Снігопад", kind: "snow" };
+  if (code >= 95) return { label: "Гроза", kind: "storm" };
+  return { label: "—", kind: "cloud" };
 }
 
 export type WindLevel = "ok" | "strong" | "severe";

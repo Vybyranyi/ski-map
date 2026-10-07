@@ -2,8 +2,11 @@
 
 import { useRef, useState } from "react";
 import { LiftBadge, TrailBadge } from "@/components/badges";
+import { AlertIcon, ArrowDownIcon, ArrowUpIcon, ChartIcon, CheckIcon, CloseIcon, LocateIcon, PlusIcon, ShareIcon } from "@/components/icons";
+import { Sheet } from "@/components/sheet";
 import { ShareDialog } from "@/components/share-dialog";
 import { StatsPanel } from "@/components/stats-panel";
+import { ConfirmButton, btnGhost, btnPrimary, btnSecondary, iconBtn } from "@/components/ui";
 import { liftById, trailById } from "@/data/resort";
 import { drop, fmtDistance, fmtMeters } from "@/lib/format";
 import { exportPlans, parseAnyImport } from "@/lib/plan-io";
@@ -17,40 +20,37 @@ type Props = {
   onLocate: (type: PlanItemType, ref: string) => void;
 };
 
-const iconBtn =
-  "grid size-9 shrink-0 place-items-center rounded-full text-zinc-500 active:bg-black/5 disabled:opacity-30 dark:active:bg-white/10";
-const textBtn =
-  "rounded-lg bg-black/5 px-3 py-2 text-sm font-medium active:bg-black/10 dark:bg-white/10 dark:active:bg-white/15";
-
-function ItemInfo({ item }: { item: PlanItem }) {
+function ItemInfo({ item, closed }: { item: PlanItem; closed: boolean }) {
   if (item.type === "trail") {
     const t = trailById.get(item.ref);
-    if (!t) return <span className="text-sm text-zinc-500">Невідома траса {item.ref}</span>;
+    if (!t) return <span className="text-sm text-muted">Невідома траса {item.ref}</span>;
     const d = drop(t);
     return (
       <>
         <TrailBadge trail={t} size="sm" />
         <span className="min-w-0">
-          <span className="block text-sm font-medium">Траса {t.id}</span>
-          <span className="block text-xs text-zinc-500">
+          <span className="block truncate text-sm font-medium">Траса {t.id}</span>
+          <span className="block truncate text-xs text-muted tabular-nums">
             {fmtDistance(t.distance)}
             {d != null && ` · ↓ ${d} м`}
+            {closed && <span className="font-medium text-bad"> · закрито</span>}
           </span>
         </span>
       </>
     );
   }
   const l = liftById.get(item.ref);
-  if (!l) return <span className="text-sm text-zinc-500">Невідомий підйомник {item.ref}</span>;
+  if (!l) return <span className="text-sm text-muted">Невідомий підйомник {item.ref}</span>;
   const d = drop(l);
   return (
     <>
       <LiftBadge id={l.id} size="sm" />
       <span className="min-w-0">
-        <span className="block text-sm font-medium">Підйомник {l.id}</span>
-        <span className="block text-xs text-zinc-500">
+        <span className="block truncate text-sm font-medium">Підйомник {l.id}</span>
+        <span className="block truncate text-xs text-muted tabular-nums">
           {l.typeName ?? l.type}
           {d != null && ` · ↑ ${d} м`}
+          {closed && <span className="font-medium text-bad"> · закрито</span>}
         </span>
       </span>
     </>
@@ -75,49 +75,43 @@ function Row({
   const store = usePlans.getState();
   const state = useStatus((s) => (item.type === "trail" ? s.data?.trails[item.ref] : s.data?.lifts[item.ref])?.state);
   return (
-    <li className="flex items-center gap-1 border-b border-black/5 last:border-0 dark:border-white/10">
+    <li className="flex items-center border-b border-hairline last:border-0">
       <button
         type="button"
         onClick={() => store.toggleDone(planId, item.id)}
         aria-pressed={item.done}
-        className="flex min-w-0 flex-1 items-center gap-3 py-2.5 text-left"
+        aria-label={item.done ? "Зняти позначку «пройдено»" : "Позначити пройденим"}
+        className="grid size-11 shrink-0 place-items-center"
       >
         <span
-          className={`grid size-7 shrink-0 place-items-center rounded-full border-2 text-sm leading-none ${
-            item.done ? "border-green-600 bg-green-600 text-white" : "border-zinc-300 dark:border-zinc-600"
+          className={`grid size-6 place-items-center rounded-full border-2 transition-colors ${
+            item.done ? "border-ink bg-ink text-surface" : "border-muted/60"
           }`}
         >
-          {item.done && "✓"}
+          {item.done && <CheckIcon className="size-3.5" />}
         </span>
-        <span className="w-5 shrink-0 text-right text-xs tabular-nums text-zinc-400">{index + 1}</span>
-        <span className={`flex min-w-0 items-center gap-2.5 ${item.done ? "opacity-45" : ""}`}>
-          <ItemInfo item={item} />
-        </span>
-        {state === "closed" && !item.done && (
-          <span className="shrink-0 rounded-full bg-red-500/15 px-2 py-0.5 text-[11px] font-medium text-red-600 dark:text-red-400">
-            закрито
-          </span>
-        )}
       </button>
+
+      <div className={`flex min-h-14 min-w-0 flex-1 items-center gap-3 ${item.done ? "opacity-50" : ""}`}>
+        <span className="w-4 shrink-0 text-right text-xs tabular-nums text-muted">{index + 1}</span>
+        <ItemInfo item={item} closed={state === "closed" && !item.done && !edit} />
+      </div>
 
       {edit ? (
         <>
           <button type="button" className={iconBtn} aria-label="Вгору" disabled={index === 0} onClick={() => store.moveItem(planId, item.id, -1)}>
-            ▲
+            <ArrowUpIcon />
           </button>
           <button type="button" className={iconBtn} aria-label="Вниз" disabled={index === count - 1} onClick={() => store.moveItem(planId, item.id, 1)}>
-            ▼
+            <ArrowDownIcon />
           </button>
-          <button type="button" className={`${iconBtn} text-red-500`} aria-label="Прибрати з плану" onClick={() => store.removeItem(planId, item.id)}>
-            ✕
+          <button type="button" className={`${iconBtn} text-bad`} aria-label="Прибрати з плану" onClick={() => store.removeItem(planId, item.id)}>
+            <CloseIcon />
           </button>
         </>
       ) : (
         <button type="button" className={iconBtn} aria-label="Показати на карті" onClick={() => onLocate(item.type, item.ref)}>
-          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-          </svg>
+          <LocateIcon />
         </button>
       )}
     </li>
@@ -177,84 +171,93 @@ export function PlanPanel({ onClose, onLocate }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-30" role="dialog" aria-modal="true" aria-label="План катання">
-      <button type="button" aria-label="Закрити план" className="absolute inset-0 bg-black/40" onClick={onClose} />
-
-      <div className="absolute inset-x-0 bottom-0 flex max-h-[88dvh] flex-col rounded-t-3xl bg-white pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-2xl dark:bg-zinc-900">
-        <div className="flex items-center justify-between px-4 pb-2 pt-3">
-          <h2 className="text-lg font-semibold">План катання</h2>
-          <div className="flex items-center gap-1">
-            <button type="button" onClick={() => setStatsOpen(true)} className="rounded-full px-3 py-1.5 text-sm font-medium text-blue-600 active:bg-black/5 dark:text-blue-400 dark:active:bg-white/10">
-              Статистика
-            </button>
-            <button type="button" onClick={onClose} aria-label="Закрити" className={`${iconBtn} text-xl`}>
-              ×
+    <>
+      <Sheet
+        title="План катання"
+        onClose={onClose}
+        actions={
+          <button type="button" onClick={() => setStatsOpen(true)} aria-label="Статистика поїздки" className={iconBtn}>
+            <ChartIcon />
+          </button>
+        }
+        subheader={
+          <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
+            {plans.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                aria-pressed={p.id === plan?.id}
+                onClick={() => store.setActive(p.id)}
+                className={`h-9 shrink-0 rounded-full px-3.5 text-sm font-medium transition-colors ${
+                  p.id === plan?.id ? "bg-ink text-surface" : "bg-subtle text-ink active:bg-hairline"
+                }`}
+              >
+                {p.name}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => store.createPlan()}
+              aria-label="Додати день"
+              className="grid h-9 shrink-0 place-items-center rounded-full border border-dashed border-muted/60 px-3 text-muted active:bg-subtle"
+            >
+              <PlusIcon className="size-4" />
             </button>
           </div>
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto px-4 pb-3">
-          {plans.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => store.setActive(p.id)}
-              className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium ${
-                p.id === plan?.id ? "bg-blue-600 text-white" : "bg-black/5 dark:bg-white/10"
-              }`}
-            >
-              {p.name}
-            </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => store.createPlan()}
-            className="shrink-0 rounded-full border border-dashed border-zinc-400 px-3.5 py-1.5 text-sm text-zinc-500"
-          >
-            + День
-          </button>
-        </div>
-
-        {plan && stats ? (
-          <>
-            <div className="px-4 pb-2">
-              {edit && (
-                <input
-                  key={plan.id}
-                  defaultValue={plan.name}
-                  onBlur={(e) => store.renamePlan(plan.id, e.target.value)}
-                  aria-label="Назва плану"
-                  className="mb-2 w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-base dark:border-zinc-600"
-                />
-              )}
-              <div className="flex items-baseline justify-between text-sm">
-                <span className="font-semibold">
-                  Пройдено {stats.done} з {stats.total}
-                </span>
-                <span className="text-xs text-zinc-500">
-                  ↓ {fmtMeters(stats.descentDone)} / {fmtMeters(stats.descentPlanned)}
-                </span>
-              </div>
-              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/10 dark:bg-white/15">
-                <div
-                  className="h-full rounded-full bg-green-600 transition-[width]"
-                  style={{ width: `${stats.total ? (stats.done / stats.total) * 100 : 0}%` }}
-                />
-              </div>
-              <div className="mt-1 text-xs text-zinc-500">
-                Траси: {fmtDistance(stats.trailMetersDone)} · підйомників: {stats.liftRidesDone}
-              </div>
-              {closedLeft > 0 && (
-                <div className="mt-2 rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-700 dark:text-red-300">
-                  Зараз закрито серед непройдених: {closedLeft}
-                </div>
+        }
+        footer={
+          plan && (
+            <div className="flex items-center justify-between gap-2">
+              <button type="button" className={edit ? `${btnPrimary} flex-1` : btnSecondary} onClick={() => setEdit((v) => !v)}>
+                {edit ? "Готово" : "Змінити"}
+              </button>
+              {!edit && (
+                <button type="button" className={btnGhost} disabled={!plan.items.length} onClick={() => setSharing(true)}>
+                  <ShareIcon className="size-4" />
+                  Поділитися
+                </button>
               )}
             </div>
+          )
+        }
+      >
+        {plan && stats ? (
+          <>
+            {edit && (
+              <input
+                key={plan.id}
+                defaultValue={plan.name}
+                onBlur={(e) => store.renamePlan(plan.id, e.target.value)}
+                aria-label="Назва плану"
+                className="mb-3 h-11 w-full rounded-xl border border-hairline bg-transparent px-3 text-base"
+              />
+            )}
 
-            <ul className="min-h-24 flex-1 overflow-y-auto px-4">
+            <div className="flex items-baseline justify-between gap-3 text-sm">
+              <span className="font-medium tabular-nums">
+                Пройдено {stats.done} з {stats.total}
+              </span>
+              <span className="text-muted tabular-nums">
+                ↓ {fmtMeters(stats.descentDone)} / {fmtMeters(stats.descentPlanned)}
+              </span>
+            </div>
+            <div className="mt-2 h-1 overflow-hidden rounded-full bg-subtle" role="progressbar" aria-valuemin={0} aria-valuemax={stats.total} aria-valuenow={stats.done} aria-label="Прогрес плану">
+              <div
+                className="h-full rounded-full bg-ink transition-[width] duration-300"
+                style={{ width: `${stats.total ? (stats.done / stats.total) * 100 : 0}%` }}
+              />
+            </div>
+            {closedLeft > 0 && (
+              <p className="mt-3 flex items-center gap-2 text-sm text-bad">
+                <AlertIcon className="size-4" />
+                Зараз закрито серед непройдених: {closedLeft}
+              </p>
+            )}
+
+            <ul className="mt-2 -ml-2.5">
               {plan.items.length === 0 && (
-                <li className="py-8 text-center text-sm text-zinc-500">
-                  План порожній. Тапніть трасу чи підйомник на карті й натисніть «Додати в план».
+                <li className="py-8 pl-2.5 text-center text-sm text-muted">
+                  План порожній. Тапніть трасу чи підйомник на карті й додайте в план.
                 </li>
               )}
               {plan.items.map((item, i) => (
@@ -262,59 +265,37 @@ export function PlanPanel({ onClose, onLocate }: Props) {
               ))}
             </ul>
 
-            <div className="flex flex-wrap gap-2 px-4 pt-3">
-              <button type="button" className={textBtn} onClick={() => setEdit((v) => !v)}>
-                {edit ? "Готово" : "Змінити"}
-              </button>
-              {!edit && (
-                <button type="button" className={textBtn} disabled={!plan.items.length} onClick={() => setSharing(true)}>
-                  Поділитися
-                </button>
-              )}
-              {edit && (
-                <>
-                  <button
-                    type="button"
-                    className={textBtn}
-                    onClick={() => confirm("Зняти позначки «пройдено» у цьому плані?") && store.resetProgress(plan.id)}
-                  >
-                    Скинути прогрес
-                  </button>
-                  <button
-                    type="button"
-                    className={`${textBtn} text-red-600`}
-                    onClick={() => confirm(`Видалити план «${plan.name}»?`) && store.deletePlan(plan.id)}
-                  >
-                    Видалити план
-                  </button>
-                </>
-              )}
-            </div>
+            {edit && (
+              <div className="mt-2 flex flex-wrap gap-1">
+                <ConfirmButton label="Скинути прогрес" confirmLabel="Скинути?" onConfirm={() => store.resetProgress(plan.id)} className={btnGhost} />
+                <ConfirmButton label="Видалити план" confirmLabel="Видалити?" onConfirm={() => store.deletePlan(plan.id)} />
+              </div>
+            )}
           </>
         ) : (
-          <p className="px-4 py-6 text-center text-sm text-zinc-500">
-            Планів ще немає. Створіть день або тапніть трасу на карті й додайте її в план.
+          <p className="py-8 text-center text-sm text-muted">
+            Планів ще немає. Створіть день кнопкою «+» або додайте трасу з карти.
           </p>
         )}
 
-        <details className="mt-3 border-t border-black/5 px-4 pt-3 dark:border-white/10">
-          <summary className="cursor-pointer text-sm text-zinc-500">Резервна копія (усі плани)</summary>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <button type="button" className={textBtn} onClick={download} disabled={!plans.length}>
+        <details className="mt-4 border-t border-hairline pt-1">
+          <summary className="flex min-h-11 cursor-pointer items-center text-sm text-muted">Резервна копія (усі плани)</summary>
+          <div className="flex flex-wrap gap-2 pb-1 pt-1">
+            <button type="button" className={btnSecondary} onClick={download} disabled={!plans.length}>
               Експорт у файл
             </button>
-            <button type="button" className={textBtn} onClick={copy} disabled={!plans.length}>
+            <button type="button" className={btnSecondary} onClick={copy} disabled={!plans.length}>
               Копіювати
             </button>
-            <button type="button" className={textBtn} onClick={() => fileInput.current?.click()}>
+            <button type="button" className={btnSecondary} onClick={() => fileInput.current?.click()}>
               Імпорт з файлу
             </button>
-            <button type="button" className={textBtn} onClick={paste}>
+            <button type="button" className={btnSecondary} onClick={paste}>
               Вставити
             </button>
           </div>
           {note && (
-            <p role="status" className="mt-2 text-xs text-zinc-500">
+            <p role="status" className="pt-2 text-sm text-muted">
               {note}
             </p>
           )}
@@ -330,9 +311,9 @@ export function PlanPanel({ onClose, onLocate }: Props) {
             }}
           />
         </details>
-      </div>
+      </Sheet>
       {sharing && plan && <ShareDialog plan={plan} onClose={() => setSharing(false)} />}
       {statsOpen && <StatsPanel onClose={() => setStatsOpen(false)} />}
-    </div>
+    </>
   );
 }

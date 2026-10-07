@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { AlertIcon, ArrowDownIcon, RefreshIcon, SnowflakeIcon, WeatherIcon } from "@/components/icons";
+import { Sheet } from "@/components/sheet";
+import { iconBtn } from "@/components/ui";
 import {
   WIND_LABEL,
   describeCode,
@@ -14,48 +17,35 @@ import {
 } from "@/lib/weather";
 import { useWeather } from "@/lib/weather-store";
 
-const LEVEL_TEXT = { ok: "", strong: "text-amber-600 dark:text-amber-400", severe: "text-red-600 dark:text-red-400" } as const;
-const LEVEL_BANNER = {
-  strong: "bg-amber-500/15 text-amber-800 dark:text-amber-300",
-  severe: "bg-red-500/15 text-red-700 dark:text-red-300",
-} as const;
+const LEVEL_TEXT = { ok: "", strong: "text-warn", severe: "text-bad" } as const;
 
-const iconBtn = "grid size-9 shrink-0 place-items-center rounded-full text-zinc-500 active:bg-black/5 dark:active:bg-white/10";
-
-function WindArrow({ from }: { from: number }) {
-  // стрілка вказує, куди дме вітер: «з півночі» (0°) — вниз
-  return (
-    <span aria-hidden="true" className="inline-block" style={{ transform: `rotate(${from}deg)` }}>
-      ↓
-    </span>
-  );
-}
-
-function PlaceCard({ place }: { place: PlaceWeather }) {
+function PlaceColumn({ place }: { place: PlaceWeather }) {
   const c = place.current;
   const desc = describeCode(c.code);
   const level = windLevel(c.windGust);
   return (
-    <div className="min-w-0 flex-1 rounded-2xl bg-black/5 p-3 dark:bg-white/10">
-      <div className="text-xs text-zinc-500">
+    <div className="min-w-0 flex-1">
+      <div className="text-sm text-muted">
         {place.name} · {Math.round(place.elevation)} м
       </div>
       <div className="mt-1 flex items-center gap-2">
-        <span className="text-3xl" aria-hidden="true">{desc.icon}</span>
+        <WeatherIcon kind={desc.kind} className="size-7" />
         <span className="text-3xl font-semibold tabular-nums">{fmtTemp(c.temp)}</span>
       </div>
-      <div className="mt-0.5 text-xs text-zinc-500">
-        {desc.label} · відчувається {fmtTemp(c.feelsLike)}
+      <div className="mt-1 text-sm text-muted">
+        {desc.label}, відчувається {fmtTemp(c.feelsLike)}
       </div>
-      <div className={`mt-2 text-sm tabular-nums ${LEVEL_TEXT[level]}`}>
-        <WindArrow from={c.windDir} /> {fmtWind(c.windSpeed)} м/с
-        <span className="ml-1 text-xs text-zinc-500">{windFrom(c.windDir)}</span>
+      <div className={`mt-3 flex items-center gap-1.5 text-sm font-medium tabular-nums ${LEVEL_TEXT[level]}`}>
+        {/* стрілка вказує, куди дме вітер: «з півночі» (0°) — вниз */}
+        <ArrowDownIcon className="size-4" style={{ transform: `rotate(${c.windDir}deg)` }} />
+        {fmtWind(c.windSpeed)} м/с
+        <span className="font-normal text-muted">{windFrom(c.windDir)}</span>
       </div>
-      <div className={`text-xs tabular-nums ${level === "ok" ? "text-zinc-500" : LEVEL_TEXT[level]}`}>
+      <div className={`text-sm tabular-nums ${level === "ok" ? "text-muted" : LEVEL_TEXT[level]}`}>
         пориви до {fmtWind(c.windGust)} м/с
       </div>
-      <div className="mt-0.5 text-xs text-zinc-500 tabular-nums">
-        {c.snowfall > 0 ? `сніг ${c.snowfall.toFixed(1)} см/год` : c.precip > 0 ? `опади ${c.precip.toFixed(1)} мм/год` : "без опадів"} · хмари {Math.round(c.cloud)}%
+      <div className="mt-1 text-sm text-muted tabular-nums">
+        {c.snowfall > 0 ? `сніг ${c.snowfall.toFixed(1)} см/год` : c.precip > 0 ? `опади ${c.precip.toFixed(1)} мм/год` : "без опадів"}
       </div>
     </div>
   );
@@ -64,16 +54,21 @@ function PlaceCard({ place }: { place: PlaceWeather }) {
 function HourColumn({ h }: { h: HourPoint }) {
   const level = windLevel(h.windGust);
   return (
-    <div className="flex w-14 shrink-0 flex-col items-center gap-0.5 text-center">
-      <span className="text-xs text-zinc-500 tabular-nums">{h.time.slice(11, 16)}</span>
-      <span className="text-xl" aria-hidden="true">{describeCode(h.code).icon}</span>
-      <span className="text-sm font-semibold tabular-nums">{fmtTemp(h.temp)}</span>
-      <span className={`text-xs tabular-nums ${LEVEL_TEXT[level]}`}>
-        {fmtWind(h.windSpeed)}
-        <span className="text-zinc-400">/</span>
-        {fmtWind(h.windGust)}
+    <div className="flex w-14 shrink-0 flex-col items-center gap-1 text-center">
+      <span className="text-xs text-muted tabular-nums">{h.time.slice(11, 16)}</span>
+      <WeatherIcon kind={describeCode(h.code).kind} />
+      <span className="text-sm font-medium tabular-nums">{fmtTemp(h.temp)}</span>
+      <span className={`text-xs tabular-nums ${level === "ok" ? "text-muted" : LEVEL_TEXT[level]}`}>
+        {fmtWind(h.windSpeed)}/{fmtWind(h.windGust)}
       </span>
-      <span className="h-4 text-[11px] text-sky-600 tabular-nums dark:text-sky-400">{h.snowfall > 0 ? `❄ ${h.snowfall.toFixed(1)}` : ""}</span>
+      <span className="flex h-4 items-center gap-0.5 text-xs text-muted tabular-nums">
+        {h.snowfall > 0 && (
+          <>
+            <SnowflakeIcon className="size-3" />
+            {h.snowfall.toFixed(1)}
+          </>
+        )}
+      </span>
     </div>
   );
 }
@@ -93,81 +88,76 @@ export function WeatherPanel({ onClose }: { onClose: () => void }) {
   const sun = data?.places[0];
 
   return (
-    <div className="fixed inset-0 z-30" role="dialog" aria-modal="true" aria-label="Погода">
-      <button type="button" aria-label="Закрити погоду" className="absolute inset-0 bg-black/40" onClick={onClose} />
+    <Sheet
+      title="Погода"
+      onClose={onClose}
+      actions={
+        <button
+          type="button"
+          onClick={() => void useWeather.getState().refresh(true)}
+          aria-label="Оновити погоду"
+          className={`${iconBtn} ${loading ? "animate-spin" : ""}`}
+        >
+          <RefreshIcon />
+        </button>
+      }
+    >
+      {!data ? (
+        <p className="py-8 text-center text-sm text-muted">
+          {error ? `Не вдалось отримати погоду (${error}). Спробуйте пізніше.` : "Завантажую…"}
+        </p>
+      ) : (
+        <>
+          {level !== "ok" && (
+            <p className={`mb-4 flex items-start gap-2 text-sm ${LEVEL_TEXT[level]}`}>
+              <AlertIcon className="mt-0.5 size-4" />
+              {WIND_LABEL[level]}
+            </p>
+          )}
 
-      <div className="absolute inset-x-0 bottom-0 flex max-h-[88dvh] flex-col overflow-y-auto rounded-t-3xl bg-white pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-2xl dark:bg-zinc-900">
-        <div className="flex items-center justify-between px-4 pb-2 pt-3">
-          <h2 className="text-lg font-semibold">Погода</h2>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => void useWeather.getState().refresh(true)}
-              aria-label="Оновити погоду"
-              className={`${iconBtn} ${loading ? "animate-spin" : ""}`}
-            >
-              ↻
-            </button>
-            <button type="button" onClick={onClose} aria-label="Закрити" className={`${iconBtn} text-xl`}>
-              ×
-            </button>
+          <div className="flex gap-4">
+            {[...data.places].reverse().map((p) => (
+              <PlaceColumn key={p.id} place={p} />
+            ))}
           </div>
-        </div>
 
-        {!data ? (
-          <p className="px-4 py-8 text-center text-sm text-zinc-500">
-            {error ? `Не вдалось отримати погоду (${error}). Спробуйте пізніше.` : "Завантажую…"}
-          </p>
-        ) : (
-          <>
-            {level !== "ok" && (
-              <div className={`mx-4 mb-3 rounded-xl px-3 py-2 text-sm ${LEVEL_BANNER[level]}`}>{WIND_LABEL[level]}</div>
-            )}
+          {sun?.sunrise && sun.sunset && (
+            <p className="mt-4 text-sm text-muted">
+              Світанок {sun.sunrise} · захід {sun.sunset}
+            </p>
+          )}
 
-            <div className="flex gap-3 px-4">
-              {[...data.places].reverse().map((p) => (
-                <PlaceCard key={p.id} place={p} />
+          <div className="mt-5 flex items-center justify-between border-t border-hairline pt-4">
+            <h3 className="text-sm font-semibold">Найближчі години</h3>
+            <div className="flex gap-0.5 rounded-full bg-subtle p-0.5 text-sm font-medium">
+              {(["top", "base"] as const).map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={hourlyFor === id}
+                  onClick={() => setHourlyFor(id)}
+                  className={`h-9 rounded-full px-4 transition-colors ${hourlyFor === id ? "bg-surface shadow-sm" : "text-muted"}`}
+                >
+                  {id === "top" ? "Верх" : "Низ"}
+                </button>
               ))}
             </div>
+          </div>
+          <div className="no-scrollbar -mx-5 mt-3 flex gap-1 overflow-x-auto px-5 pb-1">
+            {hourlyPlace?.hourly.map((h) => <HourColumn key={h.time} h={h} />)}
+          </div>
+          <p className="mt-1 text-xs text-muted">Вітер/пориви, м/с · сніг, см за годину</p>
 
-            {sun?.sunrise && sun.sunset && (
-              <div className="px-4 pt-3 text-xs text-zinc-500">
-                Світанок {sun.sunrise} · захід {sun.sunset}
-              </div>
-            )}
-
-            <div className="mt-4 flex items-center justify-between px-4">
-              <div className="text-sm font-semibold">Найближчі години</div>
-              <div className="flex gap-1 rounded-full bg-black/5 p-0.5 text-xs font-medium dark:bg-white/10">
-                {(["top", "base"] as const).map((id) => (
-                  <button
-                    key={id}
-                    type="button"
-                    aria-pressed={hourlyFor === id}
-                    onClick={() => setHourlyFor(id)}
-                    className={`rounded-full px-3 py-1 ${hourlyFor === id ? "bg-white shadow dark:bg-zinc-700" : ""}`}
-                  >
-                    {id === "top" ? "Верх" : "Низ"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-2 flex gap-2 overflow-x-auto px-4 pb-1">
-              {hourlyPlace?.hourly.map((h) => <HourColumn key={h.time} h={h} />)}
-            </div>
-            <div className="px-4 pt-1 text-[11px] text-zinc-400">Вітер / пориви, м/с · сніг, см за годину</div>
-
-            <div className="px-4 pt-4 text-[11px] text-zinc-400">
-              {error && <div className="mb-1 text-red-500">Немає зв&apos;язку, показано дані від {updated}</div>}
-              Дані:{" "}
-              <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="underline">
-                Open-Meteo.com
-              </a>{" "}
-              (CC BY 4.0), оновлено о {updated}. Це модельний прогноз для двох точок, а не показники метеостанцій курорту.
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+          <p className="mt-5 text-xs leading-relaxed text-muted">
+            {error && <span className="mb-1 block text-warn">Немає зв&apos;язку, показано дані від {updated}</span>}
+            Дані:{" "}
+            <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+              Open-Meteo.com
+            </a>{" "}
+            (CC BY 4.0), оновлено о {updated}. Це модельний прогноз для двох точок, а не показники метеостанцій курорту.
+          </p>
+        </>
+      )}
+    </Sheet>
   );
 }

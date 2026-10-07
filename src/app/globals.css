@@ -6,12 +6,25 @@
   font-display: swap;
 }
 
+/* ---------- токени інтерфейсу ----------
+   Мінімалізм: нейтральна палітра, один акцент (сам текст/«чорнило»). Колір несе лише зміст:
+   складність трас і стан (відкрито / закрито / увага). */
 :root {
-  --background: #f4f5f7;
+  --background: #ffffff;
   --foreground: #18181b;
 
-  /* кольори складностей: і на карті, і в інтерфейсі */
-  --diff-green: #16a34a;
+  --surface: #ffffff; /* панелі, кнопки */
+  --subtle: #f4f4f5; /* вторинні заливки, натискання */
+  --ink: #18181b; /* основний текст і головна кнопка */
+  --muted: #63636b; /* другорядний текст (≥ 4.5:1 на surface і subtle) */
+  --hairline: rgb(0 0 0 / 0.09); /* тонкі межі */
+  --ok: #15803d;
+  --warn: #b45309;
+  --bad: #b91c1c;
+  --locate: #2563eb; /* позиція за GPS */
+
+  /* кольори складностей: і на карті, і в інтерфейсі (білий текст на них ≥ 4.5:1) */
+  --diff-green: #15803d;
   --diff-blue: #2563eb;
   --diff-red: #dc2626;
   --diff-black: #1f2937;
@@ -20,12 +33,35 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --color-locate: var(--locate);
+}
+
+@theme {
+  --shadow-float: 0 1px 2px rgb(0 0 0 / 0.06), 0 6px 20px rgb(0 0 0 / 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0b0b0d;
     --foreground: #ededed;
+
+    --surface: #18181b;
+    --subtle: #27272a;
+    --ink: #f4f4f5;
+    --muted: #a1a1aa;
+    --hairline: rgb(255 255 255 / 0.12);
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --locate: #60a5fa;
   }
 }
 
@@ -42,6 +78,54 @@ body {
     system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* без затримки подвійного тапу; видимий фокус для клавіатури */
+button,
+summary,
+input {
+  touch-action: manipulation;
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* горизонтальні стрічки (дні, години) гортаються пальцем: смуга прокрутки зайва */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* поява панелей: коротко й м'яко; без руху, якщо користувач попросив */
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.animate-sheet {
+  animation: sheet-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.animate-fade {
+  animation: fade-in 160ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-sheet,
+  .animate-fade {
+    animation: none;
+  }
+  .animate-spin,
+  .animate-pulse {
+    animation: none;
+  }
 }
 
 /* ---------- карта ---------- */

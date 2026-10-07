@@ -14,12 +14,14 @@ import {
   type ReactZoomPanPinchContentRef,
 } from "react-zoom-pan-pinch";
 import { FilterBar } from "@/components/filter-bar";
+import { FilterMenu } from "@/components/filter-menu";
+import { ListIcon } from "@/components/icons";
 import { InfoSheet } from "@/components/info-sheet";
-import { LocateControls } from "@/components/locate-controls";
+import { MapControls } from "@/components/map-controls";
 import { PlanPanel } from "@/components/plan-panel";
 import { PositionMarker } from "@/components/position-marker";
 import { SharedPlanDialog } from "@/components/shared-plan-dialog";
-import { StatusPill } from "@/components/status-pill";
+import { floating } from "@/components/ui";
 import { WeatherChip } from "@/components/weather-chip";
 import { WeatherPanel } from "@/components/weather-panel";
 import {
@@ -124,6 +126,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const [selection, setSelection] = useState<Selection | null>(null);
   const [planOpen, setPlanOpen] = useState(false);
   const [weatherOpen, setWeatherOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [picking, setPicking] = useState(false);
   const pickingRef = useRef(false);
   const centerOnFixRef = useRef(false);
@@ -455,14 +458,12 @@ export function SkiMap({ overlay }: { overlay: string }) {
         <button
           type="button"
           onClick={() => setPlanOpen(true)}
-          className="flex h-11 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-semibold text-zinc-800 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-white/10"
+          className={`flex h-11 items-center gap-2 rounded-full pl-3.5 pr-4 text-sm font-medium active:bg-subtle ${floating}`}
         >
-          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
-          </svg>
+          <ListIcon />
           План
           {plan && plan.items.length > 0 && (
-            <span className="tabular-nums text-zinc-500">
+            <span className="tabular-nums text-muted">
               {planDone}/{plan.items.length}
             </span>
           )}
@@ -470,26 +471,15 @@ export function SkiMap({ overlay }: { overlay: string }) {
         <WeatherChip onOpen={() => setWeatherOpen(true)} />
       </div>
 
-      <div className="absolute left-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+3.25rem)]">
-        <StatusPill />
+      <div className="absolute right-3 top-[max(0.75rem,env(safe-area-inset-top))]">
+        <MapControls position={position} picking={picking} onFit={resetView} onLocate={locateMe} onTogglePick={togglePick} />
       </div>
 
-      <button
-        type="button"
-        onClick={resetView}
-        aria-label="Показати весь курорт"
-        className="absolute right-3 top-[max(0.75rem,env(safe-area-inset-top))] grid size-11 place-items-center rounded-full bg-white/95 text-zinc-700 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-200 dark:ring-white/10"
-      >
-        <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-        </svg>
-      </button>
+      {filtersOpen && (
+        <button type="button" aria-hidden="true" tabIndex={-1} className="absolute inset-0 cursor-default" onClick={() => setFiltersOpen(false)} />
+      )}
 
-      <div className="absolute right-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+6.25rem)]">
-        <LocateControls position={position} picking={picking} onLocate={locateMe} onTogglePick={togglePick} />
-      </div>
-
-      <div ref={bottomStackRef} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div ref={bottomStackRef} className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto flex max-w-md flex-col gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {activeSelection && (
           <div className="pointer-events-auto">
             <InfoSheet
@@ -507,8 +497,19 @@ export function SkiMap({ overlay }: { overlay: string }) {
             />
           </div>
         )}
-        <div className="pointer-events-auto rounded-2xl bg-white/95 p-1 shadow-lg ring-1 ring-black/5 backdrop-blur dark:bg-zinc-900/95 dark:ring-white/10">
-          <FilterBar hidden={hiddenList} onToggle={toggleFilter} />
+        {filtersOpen && (
+          <div className="pointer-events-auto">
+            <FilterMenu onClose={() => setFiltersOpen(false)} />
+          </div>
+        )}
+        <div className={`pointer-events-auto rounded-2xl p-1 ${floating}`}>
+          <FilterBar
+            hidden={hiddenList}
+            onToggle={toggleFilter}
+            extraActive={Number(onlyOpen) + Number(eveningOnly)}
+            menuOpen={filtersOpen}
+            onMenu={() => setFiltersOpen((v) => !v)}
+          />
         </div>
       </div>
       <SharedPlanDialog onImported={() => setPlanOpen(true)} />

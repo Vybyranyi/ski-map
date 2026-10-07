@@ -1,45 +1,56 @@
 "use client";
 
+import { CheckIcon, SlidersIcon } from "@/components/icons";
 import { DIFFICULTIES, DIFFICULTY_META, type Difficulty } from "@/lib/difficulty";
-import { trails } from "@/data/resort";
-
-const counts = Object.fromEntries(
-  DIFFICULTIES.map((d) => [d, trails.filter((t) => t.difficulty === d).length]),
-) as Record<Difficulty, number>;
 
 type Props = {
   hidden: readonly Difficulty[];
   onToggle: (d: Difficulty) => void;
+  /** скільки додаткових фільтрів увімкнено («лише відкриті», «вечірнє») */
+  extraActive: number;
+  menuOpen: boolean;
+  onMenu: () => void;
 };
 
-export function FilterBar({ hidden, onToggle }: Props) {
+const cell =
+  "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-xs font-medium transition-colors active:bg-subtle";
+
+/** Нижня панель: чотири складності (кольорове коло = показано, порожнє кільце = сховано) і меню фільтрів. */
+export function FilterBar({ hidden, onToggle, extraActive, menuOpen, onMenu }: Props) {
   return (
-    <div role="group" aria-label="Складність трас" className="grid grid-cols-4 gap-2">
+    <div role="group" aria-label="Фільтри трас" className="grid grid-cols-5">
       {DIFFICULTIES.map((d) => {
         const meta = DIFFICULTY_META[d];
         const off = hidden.includes(d);
         return (
-          <button
-            key={d}
-            type="button"
-            aria-pressed={!off}
-            onClick={() => onToggle(d)}
-            className="flex flex-col items-center gap-1 rounded-xl px-1 py-2 text-xs font-medium transition-colors active:bg-black/5 dark:active:bg-white/10"
-          >
+          <button key={d} type="button" aria-pressed={!off} onClick={() => onToggle(d)} className={cell}>
             <span
-              className="grid size-7 place-items-center rounded-full border-2 border-white/70 shadow-sm transition-colors"
-              style={{
-                background: off ? "transparent" : meta.color,
-                borderColor: off ? meta.color : undefined,
-              }}
+              className="grid size-6 place-items-center rounded-full text-white transition-colors"
+              style={{ background: off ? "transparent" : meta.color, boxShadow: `inset 0 0 0 2px ${meta.color}` }}
             >
-              {off && <span className="h-0.5 w-4 rotate-45 rounded" style={{ background: meta.color }} />}
+              {!off && <CheckIcon className="size-3.5" />}
             </span>
-            <span className={off ? "text-zinc-400 line-through" : ""}>{meta.plural}</span>
-            <span className="text-[10px] font-normal text-zinc-500 tabular-nums">{counts[d]}</span>
+            <span className={off ? "text-muted" : "text-ink"}>{meta.plural}</span>
           </button>
         );
       })}
+
+      <button
+        type="button"
+        aria-expanded={menuOpen}
+        aria-controls="filter-menu"
+        aria-label={extraActive ? `Фільтри, увімкнено: ${extraActive}` : "Фільтри"}
+        onClick={onMenu}
+        className={`${cell} relative before:absolute before:inset-y-3 before:left-0 before:w-px before:bg-hairline ${
+          menuOpen ? "bg-subtle" : ""
+        }`}
+      >
+        <span className="relative grid size-6 place-items-center text-ink">
+          <SlidersIcon />
+          {extraActive > 0 && <span className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-ink ring-2 ring-surface" />}
+        </span>
+        <span className="text-ink">Фільтри</span>
+      </button>
     </div>
   );
 }
