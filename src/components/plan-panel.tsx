@@ -2,9 +2,10 @@
 
 import { useRef, useState } from "react";
 import { LiftBadge, TrailBadge } from "@/components/badges";
+import { ShareDialog } from "@/components/share-dialog";
 import { liftById, trailById } from "@/data/resort";
 import { drop, fmtDistance, fmtMeters } from "@/lib/format";
-import { exportPlans, parseImport } from "@/lib/plan-io";
+import { exportPlans, parseAnyImport } from "@/lib/plan-io";
 import { planStats } from "@/lib/plan-stats";
 import { selectActivePlan, usePlans, type PlanItem, type PlanItemType } from "@/lib/plans-store";
 import { useStatus } from "@/lib/status-store";
@@ -126,6 +127,7 @@ export function PlanPanel({ onClose, onLocate }: Props) {
   const plans = usePlans((s) => s.plans);
   const plan = usePlans(selectActivePlan);
   const [edit, setEdit] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const store = usePlans.getState();
@@ -138,7 +140,7 @@ export function PlanPanel({ onClose, onLocate }: Props) {
     : 0;
 
   const runImport = (text: string) => {
-    const result = parseImport(text);
+    const result = parseAnyImport(text);
     if (!result.ok) return setNote(`Не вдалось імпортувати: ${result.error}`);
     store.importPlans(result.plans);
     const dropped = result.droppedItems ? `, пропущено елементів: ${result.droppedItems}` : "";
@@ -257,6 +259,11 @@ export function PlanPanel({ onClose, onLocate }: Props) {
               <button type="button" className={textBtn} onClick={() => setEdit((v) => !v)}>
                 {edit ? "Готово" : "Змінити"}
               </button>
+              {!edit && (
+                <button type="button" className={textBtn} disabled={!plan.items.length} onClick={() => setSharing(true)}>
+                  Поділитися
+                </button>
+              )}
               {edit && (
                 <>
                   <button
@@ -317,6 +324,7 @@ export function PlanPanel({ onClose, onLocate }: Props) {
           />
         </details>
       </div>
+      {sharing && plan && <ShareDialog plan={plan} onClose={() => setSharing(false)} />}
     </div>
   );
 }

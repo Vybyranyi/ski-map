@@ -1,4 +1,5 @@
 import { liftById, trailById } from "@/data/resort";
+import { parseShare } from "./plan-share";
 import type { Plan, PlanItem } from "./plans-store";
 
 const FORMAT = "ski-map-plans";
@@ -59,4 +60,13 @@ export function parseImport(text: string): ImportResult {
 
   if (!plans.length) return { ok: false, error: "У файлі немає жодного плану" };
   return { ok: true, plans, droppedItems };
+}
+
+/** Імпорт із файлу/буфера: JSON з експорту або посилання/код плану, яким поділились. */
+export function parseAnyImport(text: string): ImportResult {
+  const t = text.trim();
+  if (t.startsWith("{") || t.startsWith("[")) return parseImport(t);
+  const shared = parseShare(t);
+  if (shared.ok) return { ok: true, plans: [shared.plan], droppedItems: shared.droppedItems };
+  return { ok: false, error: "Не схоже ні на файл копії, ні на посилання плану" };
 }

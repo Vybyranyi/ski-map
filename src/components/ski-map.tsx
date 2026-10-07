@@ -18,6 +18,7 @@ import { InfoSheet } from "@/components/info-sheet";
 import { LocateControls } from "@/components/locate-controls";
 import { PlanPanel } from "@/components/plan-panel";
 import { PositionMarker } from "@/components/position-marker";
+import { SharedPlanDialog } from "@/components/shared-plan-dialog";
 import { StatusPill } from "@/components/status-pill";
 import { WeatherChip } from "@/components/weather-chip";
 import { WeatherPanel } from "@/components/weather-panel";
@@ -510,6 +511,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
           <FilterBar hidden={hiddenList} onToggle={toggleFilter} />
         </div>
       </div>
+      <SharedPlanDialog onImported={() => setPlanOpen(true)} />
       {weatherOpen && <WeatherPanel onClose={() => setWeatherOpen(false)} />}
       {planOpen && <PlanPanel onClose={() => setPlanOpen(false)} onLocate={locate} />}
     </div>
