@@ -10,6 +10,8 @@ export type PlanItem = {
   /** id траси ("5K") або підйомника ("13") */
   ref: string;
   done: boolean;
+  /** Коли позначено «пройдено» (мс); потрібне для статистики поїздки. Відсутнє в старих даних */
+  doneAt?: number;
 };
 
 export type Plan = {
@@ -80,7 +82,9 @@ export const usePlans = create<PlansState>()(
         set((s) => ({
           plans: mapPlan(s.plans, planId, (p) => ({
             ...p,
-            items: p.items.map((i) => (i.id === itemId ? { ...i, done: !i.done } : i)),
+            items: p.items.map((i) =>
+              i.id === itemId ? { ...i, done: !i.done, doneAt: i.done ? undefined : Date.now() } : i,
+            ),
           })),
         })),
 
@@ -98,7 +102,7 @@ export const usePlans = create<PlansState>()(
 
       resetProgress: (planId) =>
         set((s) => ({
-          plans: mapPlan(s.plans, planId, (p) => ({ ...p, items: p.items.map((i) => ({ ...i, done: false })) })),
+          plans: mapPlan(s.plans, planId, (p) => ({ ...p, items: p.items.map((i) => ({ ...i, done: false, doneAt: undefined })) })),
         })),
 
       importPlans: (incoming) => {

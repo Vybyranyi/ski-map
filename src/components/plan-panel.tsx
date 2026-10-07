@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { LiftBadge, TrailBadge } from "@/components/badges";
 import { ShareDialog } from "@/components/share-dialog";
+import { StatsPanel } from "@/components/stats-panel";
 import { liftById, trailById } from "@/data/resort";
 import { drop, fmtDistance, fmtMeters } from "@/lib/format";
 import { exportPlans, parseAnyImport } from "@/lib/plan-io";
@@ -128,6 +129,7 @@ export function PlanPanel({ onClose, onLocate }: Props) {
   const plan = usePlans(selectActivePlan);
   const [edit, setEdit] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const store = usePlans.getState();
@@ -181,9 +183,14 @@ export function PlanPanel({ onClose, onLocate }: Props) {
       <div className="absolute inset-x-0 bottom-0 flex max-h-[88dvh] flex-col rounded-t-3xl bg-white pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-2xl dark:bg-zinc-900">
         <div className="flex items-center justify-between px-4 pb-2 pt-3">
           <h2 className="text-lg font-semibold">План катання</h2>
-          <button type="button" onClick={onClose} aria-label="Закрити" className={`${iconBtn} text-xl`}>
-            ×
-          </button>
+          <div className="flex items-center gap-1">
+            <button type="button" onClick={() => setStatsOpen(true)} className="rounded-full px-3 py-1.5 text-sm font-medium text-blue-600 active:bg-black/5 dark:text-blue-400 dark:active:bg-white/10">
+              Статистика
+            </button>
+            <button type="button" onClick={onClose} aria-label="Закрити" className={`${iconBtn} text-xl`}>
+              ×
+            </button>
+          </div>
         </div>
 
         <div className="flex gap-2 overflow-x-auto px-4 pb-3">
@@ -325,6 +332,7 @@ export function PlanPanel({ onClose, onLocate }: Props) {
         </details>
       </div>
       {sharing && plan && <ShareDialog plan={plan} onClose={() => setSharing(false)} />}
+      {statsOpen && <StatsPanel onClose={() => setStatsOpen(false)} />}
     </div>
   );
 }

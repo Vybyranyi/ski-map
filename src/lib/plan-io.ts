@@ -12,7 +12,7 @@ export function exportPlans(plans: Plan[]): string {
       exportedAt: new Date().toISOString(),
       plans: plans.map((p) => ({
         name: p.name,
-        items: p.items.map(({ type, ref, done }) => ({ type, ref, done })),
+        items: p.items.map(({ type, ref, done, doneAt }) => ({ type, ref, done, ...(done && doneAt ? { doneAt } : {}) })),
       })),
     },
     null,
@@ -52,7 +52,9 @@ export function parseImport(text: string): ImportResult {
         droppedItems++;
         continue;
       }
-      items.push({ id: "", type: ri.type as PlanItem["type"], ref: ri.ref as string, done: ri.done === true });
+      const done = ri.done === true;
+      const doneAt = done && typeof ri.doneAt === "number" && Number.isFinite(ri.doneAt) ? ri.doneAt : undefined;
+      items.push({ id: "", type: ri.type as PlanItem["type"], ref: ri.ref as string, done, doneAt });
     }
     const name = typeof rp.name === "string" && rp.name.trim() ? rp.name.trim() : `Імпорт ${index + 1}`;
     plans.push({ name, items });
