@@ -15,7 +15,9 @@ import {
 } from "react-zoom-pan-pinch";
 import { FilterBar } from "@/components/filter-bar";
 import { InfoSheet } from "@/components/info-sheet";
+import { LocateControls } from "@/components/locate-controls";
 import { PlanPanel } from "@/components/plan-panel";
+import { PositionMarker } from "@/components/position-marker";
 import { StatusPill } from "@/components/status-pill";
 import {
   MAP_HEIGHT,
@@ -27,6 +29,8 @@ import {
 } from "@/data/resort";
 import { DIFFICULTIES, type Difficulty } from "@/lib/difficulty";
 import { useFilters } from "@/lib/filters-store";
+import { gpsToMap } from "@/lib/geo";
+import { useGeo } from "@/lib/geo-store";
 import { statusOf, type LiveStatus } from "@/lib/live-status";
 import { addHitAreas, applyStatus, applyVisibility, selectionSelector, type Selection } from "@/lib/map-dom";
 import { selectActivePlan, usePlans } from "@/lib/plans-store";
@@ -112,6 +116,9 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const [svgEl, setSvgEl] = useState<SVGSVGElement | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
   const [planOpen, setPlanOpen] = useState(false);
+  const [picking, setPicking] = useState(false);
+  const pickingRef = useRef(false);
+  const centerOnFixRef = useRef(false);
 
   const hiddenList = useFilters((s) => s.hidden);
   const toggleFilter = useFilters((s) => s.toggle);
@@ -130,6 +137,20 @@ export function SkiMap({ overlay }: { overlay: string }) {
     return marks;
   }, [plan]);
 
+  // положення за GPS на карті (з ручною поправкою, якщо вона є)
+  const fix = useGeo((s) => s.fix);
+  const geoStatus = useGeo((s) => s.status);
+  const geoOffset = useGeo((s) => s.offset);
+  const rawPosition = useMemo(() => (fix ? gpsToMap(fix) : null), [fix]);
+  const position = useMemo(
+    () =>
+      rawPosition && geoOffset && rawPosition.inside
+        ? { ...rawPosition, x: rawPosition.x + geoOffset[0], y: rawPosition.y + geoOffset[1] }
+        : rawPosition,
+    [rawPosition, geoOffset],
+  );
+  const rawPositionRef = useRef(rawPosition);
+
   const view = useMemo(() => (size ? computeView(size) : null), [size]);
   const activeSelection = selection && isSelectionVisible(selection, hidden, onlyOpen, status) ? selection : null;
   const selectionKey = activeSelection ? `${activeSelection.type}:${activeSelection.id}` : "";
@@ -138,6 +159,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
   useEffect(() => {
     void useFilters.persist.rehydrate();
     void usePlans.persist.rehydrate();
+    void useGeo.persist.rehydrate();
   }, []);
 
   // живий статус: одразу з кешу, далі оновлюємо при старті, поверненні у вкладку, появі мережі й раз на 2 хв
@@ -225,6 +247,15 @@ export function SkiMap({ overlay }: { overlay: string }) {
   useEffect(() => () => clearTimeout(zoomTimer.current), []);
 
   const handleTap = useCallback((x: number, y: number) => {
+    // режим «я насправді тут»: тап задає поправку до GPS-позиції
+    if (pickingRef.current) {
+      const raw = rawPositionRef.current;
+      const content = transformRef.current?.clientToContent(x, y);
+      if (raw?.inside && content) useGeo.getState().setOffset([content.x - raw.x, content.y - raw.y]);
+      pickingRef.current = false;
+      setPicking(false);
+      return;
+    }
     const group = pickGroup(document.elementsFromPoint(x, y));
     const kind = group?.dataset.kind;
     if (!group || kind === "marker") return setSelection(null);
@@ -297,6 +328,45 @@ export function SkiMap({ overlay }: { overlay: string }) {
     : 0;
   const planDone = plan?.items.filter((i) => i.done).length ?? 0;
 
+  useEffect(() => {
+    rawPositionRef.current = rawPosition;
+  }, [rawPosition]);
+
+  // центруємо карту на позиції: за вільною ділянкою над нижньою панеллю
+  const centerOnPosition = useCallback((pos: { x: number; y: number }) => {
+    const viewport = viewportRef.current;
+    const stack = bottomStackRef.current;
+    const transform = transformRef.current;
+    if (!viewport || !stack || !transform) return;
+    const scale = Math.max(transform.state.scale, 0.8);
+    const targetX = viewport.clientWidth / 2;
+    const targetY = (REVEAL_TOP_INSET + stack.getBoundingClientRect().top - 8) / 2;
+    void transform.setTransform(targetX - pos.x * scale, targetY - pos.y * scale, scale, 350);
+  }, []);
+
+  // перший сигнал після ввімкнення GPS — центруємо карту
+  useEffect(() => {
+    if (centerOnFixRef.current && position?.inside) {
+      centerOnFixRef.current = false;
+      centerOnPosition(position);
+    }
+  }, [position, centerOnPosition]);
+
+  const locateMe = () => {
+    if (geoStatus === "active" && position?.inside) return centerOnPosition(position);
+    if (geoStatus === "idle" || geoStatus === "denied" || geoStatus === "unavailable") {
+      centerOnFixRef.current = true;
+      useGeo.getState().start();
+    } else {
+      centerOnFixRef.current = true; // уже шукаємо: центруємо, щойно з'явиться позиція
+    }
+  };
+
+  const togglePick = () => {
+    pickingRef.current = !pickingRef.current;
+    setPicking(pickingRef.current);
+  };
+
   const resetView = () => {
     if (!view || !size) return;
     const { x, y } = centerOn(size, view.fit);
@@ -346,6 +416,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
                   className="absolute inset-0 max-w-none"
                   dangerouslySetInnerHTML={{ __html: overlay }}
                 />
+                {position?.inside && <PositionMarker x={position.x} y={position.y} radius={position.radius} />}
               </div>
             </TransformComponent>
           </TransformWrapper>
@@ -382,6 +453,10 @@ export function SkiMap({ overlay }: { overlay: string }) {
           <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
         </svg>
       </button>
+
+      <div className="absolute right-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+6.25rem)]">
+        <LocateControls position={position} picking={picking} onLocate={locateMe} onTogglePick={togglePick} />
+      </div>
 
       <div ref={bottomStackRef} className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {activeSelection && (

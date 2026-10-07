@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:map": "node scripts/build-map.mjs"
+    "build:map": "node scripts/build-map.mjs",
+    "calibrate:map": "node scripts/calibrate-map.mjs",
+    "extract:geometry": "node scripts/extract-geometry.mjs"
   },
   "dependencies": {
     "next": "16.3.8",

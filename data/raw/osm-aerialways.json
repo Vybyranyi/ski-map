@@ -1,0 +1,712 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-07T13:49:50Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 26116397,
+  "bounds": {
+    "minlat": 48.3488398,
+    "minlon": 24.4079310,
+    "maxlat": 48.3581137,
+    "maxlon": 24.4081639
+  },
+  "geometry": [
+    { "lat": 48.3581137, "lon": 24.4081639 },
+    { "lat": 48.3575686, "lon": 24.4081502 },
+    { "lat": 48.3568984, "lon": 24.4081334 },
+    { "lat": 48.3555705, "lon": 24.4081000 },
+    { "lat": 48.3552197, "lon": 24.4080912 },
+    { "lat": 48.3551074, "lon": 24.4080884 },
+    { "lat": 48.3545756, "lon": 24.4080750 },
+    { "lat": 48.3532101, "lon": 24.4080407 },
+    { "lat": 48.3520627, "lon": 24.4080119 },
+    { "lat": 48.3509995, "lon": 24.4079852 },
+    { "lat": 48.3499303, "lon": 24.4079584 },
+    { "lat": 48.3493159, "lon": 24.4079430 },
+    { "lat": 48.3488398, "lon": 24.4079310 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "808",
+    "aerialway:occupancy": "2",
+    "name": "2",
+    "name:uk": "2",
+    "ref": "2"
+  }
+},
+{
+  "type": "way",
+  "id": 47808732,
+  "bounds": {
+    "minlat": 48.3569124,
+    "minlon": 24.3845844,
+    "maxlat": 48.3608435,
+    "maxlon": 24.4040325
+  },
+  "geometry": [
+    { "lat": 48.3569124, "lon": 24.4040325 },
+    { "lat": 48.3572449, "lon": 24.4023876 },
+    { "lat": 48.3577481, "lon": 24.3998985 },
+    { "lat": 48.3581483, "lon": 24.3979185 },
+    { "lat": 48.3586932, "lon": 24.3952226 },
+    { "lat": 48.3590728, "lon": 24.3933445 },
+    { "lat": 48.3594632, "lon": 24.3914130 },
+    { "lat": 48.3598661, "lon": 24.3894198 },
+    { "lat": 48.3602847, "lon": 24.3873488 },
+    { "lat": 48.3606207, "lon": 24.3856869 },
+    { "lat": 48.3607722, "lon": 24.3849370 },
+    { "lat": 48.3608435, "lon": 24.3845844 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2800",
+    "aerialway:duration": "6",
+    "aerialway:occupancy": "4",
+    "name": "5",
+    "name:uk": "5",
+    "ref": "5"
+  }
+},
+{
+  "type": "way",
+  "id": 47809114,
+  "bounds": {
+    "minlat": 48.3614094,
+    "minlon": 24.4058806,
+    "maxlat": 48.3785667,
+    "maxlon": 24.4101750
+  },
+  "geometry": [
+    { "lat": 48.3614094, "lon": 24.4058806 },
+    { "lat": 48.3621029, "lon": 24.4060517 },
+    { "lat": 48.3633359, "lon": 24.4063612 },
+    { "lat": 48.3644858, "lon": 24.4066491 },
+    { "lat": 48.3657738, "lon": 24.4069716 },
+    { "lat": 48.3670335, "lon": 24.4072870 },
+    { "lat": 48.3678429, "lon": 24.4074897 },
+    { "lat": 48.3688055, "lon": 24.4077307 },
+    { "lat": 48.3699356, "lon": 24.4080137 },
+    { "lat": 48.3714142, "lon": 24.4083839 },
+    { "lat": 48.3728061, "lon": 24.4087324 },
+    { "lat": 48.3742178, "lon": 24.4090859 },
+    { "lat": 48.3756510, "lon": 24.4094448 },
+    { "lat": 48.3774005, "lon": 24.4098830 },
+    { "lat": 48.3781685, "lon": 24.4100753 },
+    { "lat": 48.3785667, "lon": 24.4101750 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2800",
+    "aerialway:occupancy": "4",
+    "name": "14",
+    "name:uk": "14",
+    "ref": "14"
+  }
+},
+{
+  "type": "way",
+  "id": 47809205,
+  "bounds": {
+    "minlat": 48.3722476,
+    "minlon": 24.3977270,
+    "maxlat": 48.3785224,
+    "maxlon": 24.4097285
+  },
+  "geometry": [
+    { "lat": 48.3722476, "lon": 24.3977270 },
+    { "lat": 48.3731569, "lon": 24.3995107 },
+    { "lat": 48.3737366, "lon": 24.4006186 },
+    { "lat": 48.3743775, "lon": 24.4018027 },
+    { "lat": 48.3762576, "lon": 24.4053758 },
+    { "lat": 48.3767497, "lon": 24.4063773 },
+    { "lat": 48.3774367, "lon": 24.4076313 },
+    { "lat": 48.3783195, "lon": 24.4093322 },
+    { "lat": 48.3785224, "lon": 24.4097285 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "808",
+    "aerialway:occupancy": "4",
+    "name": "15",
+    "name:uk": "15",
+    "ref": "15"
+  }
+},
+{
+  "type": "way",
+  "id": 47811731,
+  "bounds": {
+    "minlat": 48.3712229,
+    "minlon": 24.3799070,
+    "maxlat": 48.3729144,
+    "maxlon": 24.3949531
+  },
+  "geometry": [
+    { "lat": 48.3729144, "lon": 24.3949531 },
+    { "lat": 48.3727674, "lon": 24.3936459 },
+    { "lat": 48.3725813, "lon": 24.3919900 },
+    { "lat": 48.3724508, "lon": 24.3908297 },
+    { "lat": 48.3721988, "lon": 24.3885874 },
+    { "lat": 48.3719886, "lon": 24.3867179 },
+    { "lat": 48.3718470, "lon": 24.3854587 },
+    { "lat": 48.3717521, "lon": 24.3846144 },
+    { "lat": 48.3715549, "lon": 24.3828604 },
+    { "lat": 48.3713324, "lon": 24.3808807 },
+    { "lat": 48.3712229, "lon": 24.3799070 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:occupancy": "4",
+    "name": "11",
+    "name:uk": "11"
+  }
+},
+{
+  "type": "way",
+  "id": 49800672,
+  "bounds": {
+    "minlat": 48.3651080,
+    "minlon": 24.3942319,
+    "maxlat": 48.3724949,
+    "maxlon": 24.3963448
+  },
+  "geometry": [
+    { "lat": 48.3724949, "lon": 24.3963448 },
+    { "lat": 48.3711423, "lon": 24.3959579 },
+    { "lat": 48.3702408, "lon": 24.3957000 },
+    { "lat": 48.3691840, "lon": 24.3953977 },
+    { "lat": 48.3683264, "lon": 24.3951524 },
+    { "lat": 48.3675051, "lon": 24.3949175 },
+    { "lat": 48.3666622, "lon": 24.3946764 },
+    { "lat": 48.3656019, "lon": 24.3943732 },
+    { "lat": 48.3651080, "lon": 24.3942319 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:occupancy": "4",
+    "name": "8",
+    "name:uk": "8",
+    "ref": "8"
+  }
+},
+{
+  "type": "way",
+  "id": 49800673,
+  "bounds": {
+    "minlat": 48.3667754,
+    "minlon": 24.3691392,
+    "maxlat": 48.3681282,
+    "maxlon": 24.3824776
+  },
+  "geometry": [
+    { "lat": 48.3667754, "lon": 24.3824776 },
+    { "lat": 48.3668503, "lon": 24.3817388 },
+    { "lat": 48.3669864, "lon": 24.3803969 },
+    { "lat": 48.3670984, "lon": 24.3792934 },
+    { "lat": 48.3672724, "lon": 24.3775772 },
+    { "lat": 48.3673657, "lon": 24.3766578 },
+    { "lat": 48.3675089, "lon": 24.3752457 },
+    { "lat": 48.3676509, "lon": 24.3738453 },
+    { "lat": 48.3677930, "lon": 24.3724438 },
+    { "lat": 48.3679247, "lon": 24.3711455 },
+    { "lat": 48.3680399, "lon": 24.3700101 },
+    { "lat": 48.3681282, "lon": 24.3691392 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:duration": "7",
+    "aerialway:heating": "no",
+    "aerialway:occupancy": "4",
+    "name": "12",
+    "name:uk": "12",
+    "opening_hours": "08:30-16:30",
+    "ref": "12"
+  }
+},
+{
+  "type": "way",
+  "id": 49800674,
+  "bounds": {
+    "minlat": 48.3713959,
+    "minlon": 24.3794187,
+    "maxlat": 48.3779138,
+    "maxlon": 24.3833858
+  },
+  "geometry": [
+    { "lat": 48.3779138, "lon": 24.3833858 },
+    { "lat": 48.3771375, "lon": 24.3829133 },
+    { "lat": 48.3762006, "lon": 24.3823430 },
+    { "lat": 48.3753567, "lon": 24.3818294 },
+    { "lat": 48.3745982, "lon": 24.3813677 },
+    { "lat": 48.3737872, "lon": 24.3808741 },
+    { "lat": 48.3731180, "lon": 24.3804668 },
+    { "lat": 48.3721595, "lon": 24.3798834 },
+    { "lat": 48.3716554, "lon": 24.3795766 },
+    { "lat": 48.3713959, "lon": 24.3794187 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:occupancy": "4",
+    "name": "16",
+    "name:uk": "16",
+    "ref": "16"
+  }
+},
+{
+  "type": "way",
+  "id": 49800675,
+  "bounds": {
+    "minlat": 48.3756975,
+    "minlon": 24.4104350,
+    "maxlat": 48.3788673,
+    "maxlon": 24.4169747
+  },
+  "geometry": [
+    { "lat": 48.3756975, "lon": 24.4169747 },
+    { "lat": 48.3765475, "lon": 24.4152210 },
+    { "lat": 48.3770413, "lon": 24.4142023 },
+    { "lat": 48.3775377, "lon": 24.4131781 },
+    { "lat": 48.3781357, "lon": 24.4119444 },
+    { "lat": 48.3787514, "lon": 24.4106741 },
+    { "lat": 48.3788673, "lon": 24.4104350 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "808",
+    "aerialway:occupancy": "4",
+    "name": "22",
+    "name:uk": "22",
+    "ref": "22"
+  }
+},
+{
+  "type": "way",
+  "id": 49800676,
+  "bounds": {
+    "minlat": 48.3692800,
+    "minlon": 24.4110196,
+    "maxlat": 48.3728860,
+    "maxlon": 24.4244991
+  },
+  "geometry": [
+    { "lat": 48.3692800, "lon": 24.4110196 },
+    { "lat": 48.3696063, "lon": 24.4121863 },
+    { "lat": 48.3700574, "lon": 24.4138798 },
+    { "lat": 48.3705204, "lon": 24.4156179 },
+    { "lat": 48.3709573, "lon": 24.4172583 },
+    { "lat": 48.3713694, "lon": 24.4188053 },
+    { "lat": 48.3719583, "lon": 24.4210163 },
+    { "lat": 48.3723224, "lon": 24.4223831 },
+    { "lat": 48.3727469, "lon": 24.4239767 },
+    { "lat": 48.3728860, "lon": 24.4244991 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2800",
+    "aerialway:occupancy": "4",
+    "name": "13",
+    "name:uk": "13",
+    "ref": "13"
+  }
+},
+{
+  "type": "way",
+  "id": 100010093,
+  "bounds": {
+    "minlat": 48.3484711,
+    "minlon": 24.4077329,
+    "maxlat": 48.3579568,
+    "maxlon": 24.4097106
+  },
+  "geometry": [
+    { "lat": 48.3579568, "lon": 24.4077329 },
+    { "lat": 48.3573440, "lon": 24.4078607 },
+    { "lat": 48.3563703, "lon": 24.4080637 },
+    { "lat": 48.3556708, "lon": 24.4082095 },
+    { "lat": 48.3538051, "lon": 24.4085986 },
+    { "lat": 48.3527880, "lon": 24.4088106 },
+    { "lat": 48.3499380, "lon": 24.4094048 },
+    { "lat": 48.3489212, "lon": 24.4096168 },
+    { "lat": 48.3484711, "lon": 24.4097106 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:occupancy": "4",
+    "name": "2R",
+    "name:uk": "2R",
+    "ref": "2R"
+  }
+},
+{
+  "type": "way",
+  "id": 145051309,
+  "bounds": {
+    "minlat": 48.3611826,
+    "minlon": 24.3821284,
+    "maxlat": 48.3664880,
+    "maxlon": 24.3845694
+  },
+  "geometry": [
+    { "lat": 48.3664880, "lon": 24.3821284 },
+    { "lat": 48.3658067, "lon": 24.3824419 },
+    { "lat": 48.3647655, "lon": 24.3829209 },
+    { "lat": 48.3636646, "lon": 24.3834274 },
+    { "lat": 48.3625139, "lon": 24.3839569 },
+    { "lat": 48.3616747, "lon": 24.3843430 },
+    { "lat": 48.3611826, "lon": 24.3845694 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:duration": "5,5",
+    "aerialway:occupancy": "4",
+    "name": "17",
+    "name:uk": "17",
+    "ref": "17"
+  }
+},
+{
+  "type": "way",
+  "id": 145051350,
+  "bounds": {
+    "minlat": 48.3483977,
+    "minlon": 24.4113786,
+    "maxlat": 48.3536898,
+    "maxlon": 24.4163475
+  },
+  "geometry": [
+    { "lat": 48.3536898, "lon": 24.4163475 },
+    { "lat": 48.3529777, "lon": 24.4156789 },
+    { "lat": 48.3513640, "lon": 24.4141637 },
+    { "lat": 48.3500983, "lon": 24.4129753 },
+    { "lat": 48.3493360, "lon": 24.4122596 },
+    { "lat": 48.3488783, "lon": 24.4118299 },
+    { "lat": 48.3486757, "lon": 24.4116396 },
+    { "lat": 48.3483977, "lon": 24.4113786 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "2400",
+    "aerialway:occupancy": "4",
+    "name": "1",
+    "name:uk": "1",
+    "ref": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 145051354,
+  "bounds": {
+    "minlat": 48.3666033,
+    "minlon": 24.4155794,
+    "maxlat": 48.3728559,
+    "maxlon": 24.4252179
+  },
+  "geometry": [
+    { "lat": 48.3666033, "lon": 24.4155794 },
+    { "lat": 48.3672429, "lon": 24.4165652 },
+    { "lat": 48.3677324, "lon": 24.4173199 },
+    { "lat": 48.3685997, "lon": 24.4186568 },
+    { "lat": 48.3691328, "lon": 24.4194785 },
+    { "lat": 48.3696544, "lon": 24.4202826 },
+    { "lat": 48.3702259, "lon": 24.4211635 },
+    { "lat": 48.3707058, "lon": 24.4219033 },
+    { "lat": 48.3709141, "lon": 24.4222244 },
+    { "lat": 48.3717454, "lon": 24.4235060 },
+    { "lat": 48.3719406, "lon": 24.4238069 },
+    { "lat": 48.3726241, "lon": 24.4248606 },
+    { "lat": 48.3728559, "lon": 24.4252179 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "1800",
+    "aerialway:occupancy": "3",
+    "name": "9",
+    "name:uk": "9",
+    "ref": "9"
+  }
+},
+{
+  "type": "way",
+  "id": 145051366,
+  "bounds": {
+    "minlat": 48.3576882,
+    "minlon": 24.3937724,
+    "maxlat": 48.3593726,
+    "maxlon": 24.4027625
+  },
+  "geometry": [
+    { "lat": 48.3576882, "lon": 24.4027625 },
+    { "lat": 48.3593726, "lon": 24.3937724 }
+  ],
+  "tags": {
+    "aerialway": "drag_lift",
+    "aerialway:capacity": "1300",
+    "name": "6",
+    "name:uk": "6",
+    "ref": "6"
+  }
+},
+{
+  "type": "way",
+  "id": 145051367,
+  "bounds": {
+    "minlat": 48.3590064,
+    "minlon": 24.4083463,
+    "maxlat": 48.3658244,
+    "maxlon": 24.4156306
+  },
+  "geometry": [
+    { "lat": 48.3590064, "lon": 24.4083463 },
+    { "lat": 48.3600533, "lon": 24.4094611 },
+    { "lat": 48.3609468, "lon": 24.4104162 },
+    { "lat": 48.3618717, "lon": 24.4114049 },
+    { "lat": 48.3627627, "lon": 24.4123575 },
+    { "lat": 48.3636970, "lon": 24.4133562 },
+    { "lat": 48.3646492, "lon": 24.4143742 },
+    { "lat": 48.3652792, "lon": 24.4150477 },
+    { "lat": 48.3658244, "lon": 24.4156306 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "1428",
+    "aerialway:occupancy": "4",
+    "name": "7",
+    "name:uk": "7",
+    "ref": "7"
+  }
+},
+{
+  "type": "way",
+  "id": 413997564,
+  "bounds": {
+    "minlat": 48.3604203,
+    "minlon": 24.4090041,
+    "maxlat": 48.3615984,
+    "maxlon": 24.4102287
+  },
+  "geometry": [
+    { "lat": 48.3604203, "lon": 24.4090041 },
+    { "lat": 48.3615984, "lon": 24.4102287 }
+  ],
+  "tags": {
+    "aerialway": "rope_tow",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 413997565,
+  "bounds": {
+    "minlat": 48.3602574,
+    "minlon": 24.4094072,
+    "maxlat": 48.3614084,
+    "maxlon": 24.4106357
+  },
+  "geometry": [
+    { "lat": 48.3602574, "lon": 24.4094072 },
+    { "lat": 48.3614084, "lon": 24.4106357 }
+  ],
+  "tags": {
+    "aerialway": "rope_tow"
+  }
+},
+{
+  "type": "way",
+  "id": 417108065,
+  "bounds": {
+    "minlat": 48.3618325,
+    "minlon": 24.4058820,
+    "maxlat": 48.3631015,
+    "maxlon": 24.4062241
+  },
+  "geometry": [
+    { "lat": 48.3618325, "lon": 24.4058820 },
+    { "lat": 48.3631015, "lon": 24.4062241 }
+  ],
+  "tags": {
+    "aerialway": "rope_tow"
+  }
+},
+{
+  "type": "way",
+  "id": 905036555,
+  "bounds": {
+    "minlat": 48.3428486,
+    "minlon": 24.4092071,
+    "maxlat": 48.3483990,
+    "maxlon": 24.4165889
+  },
+  "geometry": [
+    { "lat": 48.3428486, "lon": 24.4165889 },
+    { "lat": 48.3483990, "lon": 24.4092071 }
+  ],
+  "tags": {
+    "aerialway": "chair_lift",
+    "aerialway:bubble": "no",
+    "aerialway:capacity": "3000",
+    "aerialway:duration": "2:45",
+    "aerialway:occupancy": "6",
+    "fee": "yes",
+    "name": "3",
+    "name:uk": "3",
+    "opening_hours": "08:00-19:30",
+    "ref": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 1029388129,
+  "bounds": {
+    "minlat": 48.3608811,
+    "minlon": 24.4087189,
+    "maxlat": 48.3617775,
+    "maxlon": 24.4098616
+  },
+  "geometry": [
+    { "lat": 48.3608811, "lon": 24.4087189 },
+    { "lat": 48.3617775, "lon": 24.4098616 }
+  ],
+  "tags": {
+    "aerialway": "magic_carpet"
+  }
+},
+{
+  "type": "way",
+  "id": 1029388134,
+  "bounds": {
+    "minlat": 48.3585116,
+    "minlon": 24.4061829,
+    "maxlat": 48.3587941,
+    "maxlon": 24.4068119
+  },
+  "geometry": [
+    { "lat": 48.3585116, "lon": 24.4068119 },
+    { "lat": 48.3587941, "lon": 24.4061829 }
+  ],
+  "tags": {
+    "aerialway": "magic_carpet"
+  }
+},
+{
+  "type": "way",
+  "id": 1029388135,
+  "bounds": {
+    "minlat": 48.3585143,
+    "minlon": 24.4062486,
+    "maxlat": 48.3588012,
+    "maxlon": 24.4068897
+  },
+  "geometry": [
+    { "lat": 48.3585143, "lon": 24.4068897 },
+    { "lat": 48.3588012, "lon": 24.4062486 }
+  ],
+  "tags": {
+    "aerialway": "magic_carpet"
+  }
+},
+{
+  "type": "way",
+  "id": 1033239570,
+  "bounds": {
+    "minlat": 48.3632496,
+    "minlon": 24.4151465,
+    "maxlat": 48.3651644,
+    "maxlon": 24.4175018
+  },
+  "geometry": [
+    { "lat": 48.3632496, "lon": 24.4175018 },
+    { "lat": 48.3651644, "lon": 24.4151465 }
+  ],
+  "tags": {
+    "aerialway": "magic_carpet",
+    "name": "7R",
+    "name:uk": "7R"
+  }
+},
+{
+  "type": "way",
+  "id": 1177219641,
+  "bounds": {
+    "minlat": 48.3732050,
+    "minlon": 24.3916145,
+    "maxlat": 48.3737929,
+    "maxlon": 24.3936986
+  },
+  "geometry": [
+    { "lat": 48.3732050, "lon": 24.3936986 },
+    { "lat": 48.3737929, "lon": 24.3916145 }
+  ],
+  "tags": {
+    "aerialway": "drag_lift",
+    "leisure": "track",
+    "sport": "wakeboarding"
+  }
+},
+{
+  "type": "way",
+  "id": 1177219642,
+  "bounds": {
+    "minlat": 48.3732050,
+    "minlon": 24.3916145,
+    "maxlat": 48.3738517,
+    "maxlon": 24.3938032
+  },
+  "geometry": [
+    { "lat": 48.3737929, "lon": 24.3916145 },
+    { "lat": 48.3738517, "lon": 24.3916467 },
+    { "lat": 48.3734847, "lon": 24.3938032 },
+    { "lat": 48.3732050, "lon": 24.3936986 }
+  ],
+  "tags": {
+    "aerialway": "drag_lift",
+    "leisure": "track",
+    "sport": "wakeboarding"
+  }
+},
+{
+  "type": "way",
+  "id": 1392233965,
+  "bounds": {
+    "minlat": 48.3541951,
+    "minlon": 24.4023904,
+    "maxlat": 48.3544659,
+    "maxlon": 24.4035142
+  },
+  "geometry": [
+    { "lat": 48.3544659, "lon": 24.4023904 },
+    { "lat": 48.3541951, "lon": 24.4035142 }
+  ],
+  "tags": {
+    "aerialway": "magic_carpet"
+  }
+}
+
+  ]
+}
