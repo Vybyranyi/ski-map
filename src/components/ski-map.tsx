@@ -19,6 +19,8 @@ import { LocateControls } from "@/components/locate-controls";
 import { PlanPanel } from "@/components/plan-panel";
 import { PositionMarker } from "@/components/position-marker";
 import { StatusPill } from "@/components/status-pill";
+import { WeatherChip } from "@/components/weather-chip";
+import { WeatherPanel } from "@/components/weather-panel";
 import {
   MAP_HEIGHT,
   MAP_WIDTH,
@@ -36,6 +38,7 @@ import { statusOf, type LiveStatus } from "@/lib/live-status";
 import { addHitAreas, applyStatus, applyVisibility, selectionSelector, type Selection } from "@/lib/map-dom";
 import { selectActivePlan, usePlans } from "@/lib/plans-store";
 import { useStatus } from "@/lib/status-store";
+import { useWeather } from "@/lib/weather-store";
 
 const MAX_SCALE = 3;
 const DEFAULT_MIN_ZOOM = 0.42; // на телефоні відкриваємо ближче, ніж «весь курорт»
@@ -119,6 +122,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const [svgEl, setSvgEl] = useState<SVGSVGElement | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
   const [planOpen, setPlanOpen] = useState(false);
+  const [weatherOpen, setWeatherOpen] = useState(false);
   const [picking, setPicking] = useState(false);
   const pickingRef = useRef(false);
   const centerOnFixRef = useRef(false);
@@ -203,6 +207,24 @@ export function SkiMap({ overlay }: { overlay: string }) {
     const scale = transformRef.current?.state.scale ?? 1;
     rootRef.current?.style.setProperty("--zoom", scale.toFixed(3));
   }, [svgEl]);
+
+  // погода: з кешу одразу, далі раз на 15 хв і при поверненні у вкладку (не частіше, ніж раз на 5 хв)
+  useEffect(() => {
+    let cancelled = false;
+    const refresh = () => {
+      if (!cancelled && document.visibilityState === "visible") void useWeather.getState().refresh();
+    };
+    void Promise.resolve(useWeather.persist.rehydrate()).then(refresh);
+    const timer = setInterval(refresh, 15 * 60_000);
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("online", refresh);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("online", refresh);
+    };
+  }, []);
 
   useEffect(() => {
     if (svgEl) applyStatus(svgEl, status);
@@ -428,21 +450,24 @@ export function SkiMap({ overlay }: { overlay: string }) {
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={() => setPlanOpen(true)}
-        className="absolute left-3 top-[max(0.75rem,env(safe-area-inset-top))] flex h-11 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-semibold text-zinc-800 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-white/10"
-      >
-        <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
-        </svg>
-        План
-        {plan && plan.items.length > 0 && (
-          <span className="tabular-nums text-zinc-500">
-            {planDone}/{plan.items.length}
-          </span>
-        )}
-      </button>
+      <div className="absolute left-3 top-[max(0.75rem,env(safe-area-inset-top))] flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setPlanOpen(true)}
+          className="flex h-11 items-center gap-2 rounded-full bg-white/95 px-4 text-sm font-semibold text-zinc-800 shadow-lg ring-1 ring-black/5 active:bg-zinc-100 dark:bg-zinc-900/95 dark:text-zinc-100 dark:ring-white/10"
+        >
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
+          </svg>
+          План
+          {plan && plan.items.length > 0 && (
+            <span className="tabular-nums text-zinc-500">
+              {planDone}/{plan.items.length}
+            </span>
+          )}
+        </button>
+        <WeatherChip onOpen={() => setWeatherOpen(true)} />
+      </div>
 
       <div className="absolute left-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+3.25rem)]">
         <StatusPill />
@@ -485,6 +510,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
           <FilterBar hidden={hiddenList} onToggle={toggleFilter} />
         </div>
       </div>
+      {weatherOpen && <WeatherPanel onClose={() => setWeatherOpen(false)} />}
       {planOpen && <PlanPanel onClose={() => setPlanOpen(false)} onLocate={locate} />}
     </div>
   );
