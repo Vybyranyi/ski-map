@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { FilterBar } from "@/components/filter-bar";
 import { RefreshIcon } from "@/components/icons";
 import { StateDot, Switch, floating, iconBtn } from "@/components/ui";
 import { lifts, trails } from "@/data/resort";
@@ -18,6 +19,8 @@ export function FilterMenu({ onClose }: { onClose: () => void }) {
   const data = useStatus((s) => s.data);
   const error = useStatus((s) => s.error);
   const loading = useStatus((s) => s.loading);
+  const hidden = useFilters((s) => s.hidden);
+  const toggleDifficulty = useFilters((s) => s.toggle);
   const onlyOpen = useFilters((s) => s.onlyOpen);
   const setOnlyOpen = useFilters((s) => s.setOnlyOpen);
   const eveningOnly = useFilters((s) => s.eveningOnly);
@@ -35,6 +38,8 @@ export function FilterMenu({ onClose }: { onClose: () => void }) {
 
   return (
     <div id="filter-menu" className={`animate-sheet rounded-2xl px-4 pb-2 pt-2 ${floating}`}>
+      <FilterBar hidden={hidden} onToggle={toggleDifficulty} />
+      <div className="my-1 border-t border-hairline" />
       <Switch checked={onlyOpen} onChange={setOnlyOpen} label="Лише відкриті" />
       <Switch checked={eveningOnly} onChange={setEveningOnly} label="Вечірнє катання" />
 

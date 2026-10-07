@@ -13,9 +13,8 @@ import {
   TransformWrapper,
   type ReactZoomPanPinchContentRef,
 } from "react-zoom-pan-pinch";
-import { FilterBar } from "@/components/filter-bar";
 import { FilterMenu } from "@/components/filter-menu";
-import { ListIcon } from "@/components/icons";
+import { ListIcon, SlidersIcon } from "@/components/icons";
 import { InfoSheet } from "@/components/info-sheet";
 import { MapControls } from "@/components/map-controls";
 import { PlanPanel } from "@/components/plan-panel";
@@ -132,7 +131,6 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const centerOnFixRef = useRef(false);
 
   const hiddenList = useFilters((s) => s.hidden);
-  const toggleFilter = useFilters((s) => s.toggle);
   const hidden = useMemo(() => new Set(hiddenList), [hiddenList]);
   const onlyOpen = useFilters((s) => s.onlyOpen);
   const eveningOnly = useFilters((s) => s.eveningOnly);
@@ -354,6 +352,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
     setPlanOpen(false);
   };
 
+  const activeFilters = hiddenList.length + Number(onlyOpen) + Number(eveningOnly);
   const planCount = activeSelection
     ? (plan?.items.filter((i) => i.type === activeSelection.type && i.ref === activeSelection.id).length ?? 0)
     : 0;
@@ -502,15 +501,18 @@ export function SkiMap({ overlay }: { overlay: string }) {
             <FilterMenu onClose={() => setFiltersOpen(false)} />
           </div>
         )}
-        <div className={`pointer-events-auto rounded-2xl p-1 ${floating}`}>
-          <FilterBar
-            hidden={hiddenList}
-            onToggle={toggleFilter}
-            extraActive={Number(onlyOpen) + Number(eveningOnly)}
-            menuOpen={filtersOpen}
-            onMenu={() => setFiltersOpen((v) => !v)}
-          />
-        </div>
+        <button
+          type="button"
+          aria-expanded={filtersOpen}
+          aria-controls="filter-menu"
+          aria-label={activeFilters ? `Фільтри, змінено: ${activeFilters}` : "Фільтри"}
+          onClick={() => setFiltersOpen((v) => !v)}
+          className={`pointer-events-auto relative flex h-11 items-center gap-2 self-end rounded-full pl-3.5 pr-4 text-sm font-medium active:bg-subtle ${floating}`}
+        >
+          <SlidersIcon />
+          Фільтри
+          {activeFilters > 0 && <span className="absolute -right-0.5 -top-0.5 size-3 rounded-full bg-ink ring-2 ring-surface" />}
+        </button>
       </div>
       <SharedPlanDialog onImported={() => setPlanOpen(true)} />
       {weatherOpen && <WeatherPanel onClose={() => setWeatherOpen(false)} />}
