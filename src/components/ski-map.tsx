@@ -23,6 +23,7 @@ import {
   MAP_HEIGHT,
   MAP_WIDTH,
   RESORT_AREA,
+  eveningLiftIds,
   liftById,
   trailById,
   trailsByLift,
@@ -62,13 +63,15 @@ function isSelectionVisible(
   sel: Selection,
   hidden: ReadonlySet<Difficulty>,
   onlyOpen: boolean,
+  eveningOnly: boolean,
   status: LiveStatus | null,
 ) {
   if (onlyOpen && statusOf(status, sel.type, sel.id)?.state === "closed") return false;
   if (sel.type === "trail") {
     const t = trailById.get(sel.id);
-    return !!t && !hidden.has(t.difficulty);
+    return !!t && !hidden.has(t.difficulty) && (!eveningOnly || t.evening);
   }
+  if (eveningOnly && !eveningLiftIds.has(sel.id)) return false;
   const served = trailsByLift.get(sel.id) ?? [];
   return liftById.has(sel.id) && !(served.length > 0 && served.every((t) => hidden.has(t.difficulty)));
 }
@@ -124,6 +127,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const toggleFilter = useFilters((s) => s.toggle);
   const hidden = useMemo(() => new Set(hiddenList), [hiddenList]);
   const onlyOpen = useFilters((s) => s.onlyOpen);
+  const eveningOnly = useFilters((s) => s.eveningOnly);
   const status = useStatus((s) => s.data);
 
   const plan = usePlans(selectActivePlan);
@@ -152,7 +156,7 @@ export function SkiMap({ overlay }: { overlay: string }) {
   const rawPositionRef = useRef(rawPosition);
 
   const view = useMemo(() => (size ? computeView(size) : null), [size]);
-  const activeSelection = selection && isSelectionVisible(selection, hidden, onlyOpen, status) ? selection : null;
+  const activeSelection = selection && isSelectionVisible(selection, hidden, onlyOpen, eveningOnly, status) ? selection : null;
   const selectionKey = activeSelection ? `${activeSelection.type}:${activeSelection.id}` : "";
 
   // збережене з localStorage (skipHydration у сторах)
@@ -206,8 +210,8 @@ export function SkiMap({ overlay }: { overlay: string }) {
 
   // після applyStatus: «лише відкриті» читає data-status
   useEffect(() => {
-    if (svgEl) applyVisibility(svgEl, hidden, onlyOpen);
-  }, [svgEl, hidden, onlyOpen, status]);
+    if (svgEl) applyVisibility(svgEl, hidden, { onlyOpen, eveningOnly });
+  }, [svgEl, hidden, onlyOpen, eveningOnly, status]);
 
   // підсвітка вибраного
   useEffect(() => {
@@ -311,13 +315,14 @@ export function SkiMap({ overlay }: { overlay: string }) {
   // «Показати на карті» з плану: повертаємо приховану складність, інакше елемент не буде видно
   const locate = (type: Selection["type"], id: string) => {
     const sel: Selection = { type, id };
-    if (!isSelectionVisible(sel, hidden, onlyOpen, status)) {
+    if (!isSelectionVisible(sel, hidden, onlyOpen, eveningOnly, status)) {
       const diffs = (type === "trail" ? [trailById.get(id)] : (trailsByLift.get(id) ?? []))
         .map((t) => t?.difficulty)
         .filter((d): d is Difficulty => !!d);
       const easiest = DIFFICULTIES.find((d) => diffs.includes(d));
       if (easiest) useFilters.getState().show([easiest]);
       if (onlyOpen && statusOf(status, type, id)?.state === "closed") useFilters.getState().setOnlyOpen(false);
+      if (eveningOnly) useFilters.getState().setEveningOnly(false);
     }
     setSelection(sel);
     setPlanOpen(false);
@@ -464,7 +469,9 @@ export function SkiMap({ overlay }: { overlay: string }) {
             <InfoSheet
               selection={activeSelection}
               isTrailHidden={(t) =>
-                hidden.has(t.difficulty) || (onlyOpen && statusOf(status, "trail", t.id)?.state === "closed")
+                hidden.has(t.difficulty) ||
+                (onlyOpen && statusOf(status, "trail", t.id)?.state === "closed") ||
+                (eveningOnly && !t.evening)
               }
               planCount={planCount}
               status={statusOf(status, activeSelection.type, activeSelection.id)}

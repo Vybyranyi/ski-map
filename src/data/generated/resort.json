@@ -11,6 +11,7 @@
       "top": 1126,
       "distance": 1602,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track1ARed"
@@ -25,6 +26,7 @@
       "top": 1070,
       "distance": 296,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track1BBlack"
@@ -41,6 +43,7 @@
       "notes": [
         "Траса доступна для вечірнього катання"
       ],
+      "evening": true,
       "freeride": false,
       "svg": [
         "Track1CBlue"
@@ -57,6 +60,7 @@
       "notes": [
         "Майданчик для навчання"
       ],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track1DGreen"
@@ -73,6 +77,7 @@
       "notes": [
         "Траса доступна для вечірнього катання"
       ],
+      "evening": true,
       "freeride": false,
       "svg": [
         "Track1EBlue"
@@ -89,6 +94,7 @@
       "notes": [
         "Траса доступна для вечірнього катання"
       ],
+      "evening": true,
       "freeride": false,
       "svg": [
         "Track2ARed"
@@ -103,6 +109,7 @@
       "top": 1115,
       "distance": 1459,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track2BRed"
@@ -119,6 +126,7 @@
       "notes": [
         "Траса доступна для вечірнього катання"
       ],
+      "evening": true,
       "freeride": false,
       "svg": [
         "Track2CBlue"
@@ -135,6 +143,7 @@
       "notes": [
         "Майданчик для навчання"
       ],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track2DGreen"
@@ -149,6 +158,7 @@
       "top": 1126,
       "distance": 2600,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track3ABlue"
@@ -163,6 +173,7 @@
       "top": 1126,
       "distance": 2000,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track3DBlue"
@@ -177,6 +188,7 @@
       "top": 1105,
       "distance": 1794,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5ABlue"
@@ -191,6 +203,7 @@
       "top": 1236,
       "distance": 1446,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5BBlue"
@@ -205,6 +218,7 @@
       "top": 1195,
       "distance": 340,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5CRed"
@@ -219,6 +233,7 @@
       "top": 1048,
       "distance": 700,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5DRed"
@@ -233,6 +248,7 @@
       "top": 1050,
       "distance": 960,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5EBlack"
@@ -247,6 +263,7 @@
       "top": 1135,
       "distance": 768,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5FBlack"
@@ -261,6 +278,7 @@
       "top": 1235,
       "distance": 2106,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5GRed"
@@ -275,6 +293,7 @@
       "top": 1236,
       "distance": 1549,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5HBlack"
@@ -289,6 +308,7 @@
       "top": 1276,
       "distance": 2625,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track5KBlue"
@@ -305,6 +325,7 @@
       "notes": [
         "Траса доступна для вечірнього катання"
       ],
+      "evening": true,
       "freeride": false,
       "svg": [
         "Track7ABlue"
@@ -319,6 +340,7 @@
       "top": 976,
       "distance": 867,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track7BBlue"
@@ -333,6 +355,7 @@
       "top": 1000,
       "distance": null,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track7CBlue"
@@ -347,6 +370,7 @@
       "top": 940,
       "distance": null,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track-7D-blue"
@@ -363,6 +387,7 @@
       "notes": [
         "Майданчик для навчання"
       ],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track7EGreen"
@@ -377,6 +402,7 @@
       "top": 1080,
       "distance": 936,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track8ARed"
@@ -391,6 +417,7 @@
       "top": 1111,
       "distance": 757,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track8BRed"
@@ -405,6 +432,7 @@
       "top": 1105,
       "distance": 750,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track8CRed"
@@ -419,6 +447,7 @@
       "top": 1117,
       "distance": 1420,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track8DBlue"
@@ -433,6 +462,7 @@
       "top": 1050,
       "distance": 290,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track9ABlue"
@@ -447,6 +477,7 @@
       "top": 1200,
       "distance": 600,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11ARed"
@@ -461,6 +492,7 @@
       "top": 1197,
       "distance": 804,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11BBlack"
@@ -475,6 +507,7 @@
       "top": 1185,
       "distance": 420,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11CBlack"
@@ -489,6 +522,7 @@
       "top": 1204,
       "distance": 1593,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11DRed"
@@ -503,6 +537,7 @@
       "top": 1081,
       "distance": 390,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11ERed"
@@ -517,6 +552,7 @@
       "top": 1202,
       "distance": 2065,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track11FBlue"
@@ -531,6 +567,7 @@
       "top": 1371,
       "distance": 1674,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track12ARed"
@@ -545,6 +582,7 @@
       "top": 1371,
       "distance": 1600,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track12BBlue"
@@ -561,6 +599,7 @@
       "notes": [
         "Траса для фрі-райду"
       ],
+      "evening": false,
       "freeride": true,
       "svg": [
         "Track12CRed"
@@ -577,6 +616,7 @@
       "notes": [
         "Траса для фрі-райду"
       ],
+      "evening": false,
       "freeride": true,
       "svg": [
         "Track12DRed"
@@ -591,6 +631,7 @@
       "top": 1141,
       "distance": 1308,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track13ARed"
@@ -605,6 +646,7 @@
       "top": 1110,
       "distance": 650,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track13BRed"
@@ -619,6 +661,7 @@
       "top": 1075,
       "distance": 570,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track13CRed"
@@ -633,6 +676,7 @@
       "top": 1149,
       "distance": 1279,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track13DRed"
@@ -647,6 +691,7 @@
       "top": 1149,
       "distance": 1338,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track13EBlue"
@@ -661,6 +706,7 @@
       "top": 1189,
       "distance": 2132,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track14ABlue"
@@ -675,6 +721,7 @@
       "top": 1021,
       "distance": 1061,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track14BBlue"
@@ -689,6 +736,7 @@
       "top": 1189,
       "distance": 1528,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track15ARed"
@@ -703,6 +751,7 @@
       "top": 1060,
       "distance": 331,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track15BRed"
@@ -717,6 +766,7 @@
       "top": 1090,
       "distance": 815,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track15CRed"
@@ -731,6 +781,7 @@
       "top": 1089,
       "distance": 500,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track15DRed"
@@ -745,6 +796,7 @@
       "top": 1185,
       "distance": 1900,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track15EBlue"
@@ -759,6 +811,7 @@
       "top": 1205,
       "distance": 1741,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track16ARed"
@@ -773,6 +826,7 @@
       "top": 1180,
       "distance": 900,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track16BBlack"
@@ -787,6 +841,7 @@
       "top": 1195,
       "distance": 964,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track16CBlack"
@@ -801,6 +856,7 @@
       "top": 1205,
       "distance": 528,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track16DBlack"
@@ -815,6 +871,7 @@
       "top": 1070,
       "distance": 580,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track16EBlack"
@@ -829,6 +886,7 @@
       "top": 1146,
       "distance": 612,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track17ABlue"
@@ -843,6 +901,7 @@
       "top": 1135,
       "distance": 501,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track22ABlack"
@@ -857,6 +916,7 @@
       "top": 1186,
       "distance": 707,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track22BBlack"
@@ -871,6 +931,7 @@
       "top": 1180,
       "distance": 1700,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "Track22CBlue"
@@ -885,6 +946,7 @@
       "top": 915,
       "distance": 40,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackBBlue"
@@ -899,6 +961,7 @@
       "top": 940,
       "distance": 245,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackDBlue"
@@ -913,6 +976,7 @@
       "top": 960,
       "distance": 282,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackERed"
@@ -927,6 +991,7 @@
       "top": 1112,
       "distance": 294,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackFBlue"
@@ -941,6 +1006,7 @@
       "top": 1103,
       "distance": 480,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackGBlue"
@@ -955,6 +1021,7 @@
       "top": 1015,
       "distance": 221,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackJBlue"
@@ -969,6 +1036,7 @@
       "top": 1145,
       "distance": 632,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackKBlue"
@@ -983,6 +1051,7 @@
       "top": 927,
       "distance": 200,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackMBlue"
@@ -997,6 +1066,7 @@
       "top": 1061,
       "distance": 324,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackSBlue"
@@ -1011,6 +1081,7 @@
       "top": 990,
       "distance": 330,
       "notes": [],
+      "evening": false,
       "freeride": false,
       "svg": [
         "TrackURed"

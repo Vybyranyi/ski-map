@@ -11,6 +11,8 @@ export type Trail = {
   top: number | null;
   distance: number | null;
   notes: string[];
+  /** Траса працює у вечірньому катанні (за приміткою Буковеля) */
+  evening: boolean;
   freeride: boolean;
   svg: string[];
 };
@@ -43,6 +45,11 @@ for (const t of trails) {
   list.push(t);
   trailsByLift.set(t.liftId, list);
 }
+
+/** Підйомники, що ведуть на вечірні траси (режим «Вечірнє») */
+export const eveningLiftIds = new Set(
+  trails.filter((t) => t.evening && t.liftId).map((t) => t.liftId as string),
+);
 
 const [, , w, h] = resort.viewBox.split(" ").map(Number);
 export const MAP_WIDTH = w;

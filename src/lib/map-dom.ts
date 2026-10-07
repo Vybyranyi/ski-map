@@ -1,5 +1,5 @@
 import type { Difficulty } from "./difficulty";
-import { trailsByLift } from "@/data/resort";
+import { eveningLiftIds, trailById, trailsByLift } from "@/data/resort";
 import type { LiveStatus } from "./live-status";
 
 export type Selection = { type: "trail" | "lift"; id: string };
@@ -41,22 +41,36 @@ export function applyStatus(svg: SVGSVGElement, status: LiveStatus | null) {
   });
 }
 
+export type VisibilityOptions = {
+  /** сховати закриті (за живим статусом) */
+  onlyOpen: boolean;
+  /** лишити лише вечірні траси й підйомники до них */
+  eveningOnly: boolean;
+};
+
 /**
- * Ховає траси, з'єднання й підйомники за прихованими складностями та (за потреби)
- * за статусом «закрито». Статус береться з data-status, тож applyStatus має виконатись раніше.
+ * Ховає траси, з'єднання й підйомники за прихованими складностями, статусом «закрито»
+ * та режимом «вечірнє». Статус береться з data-status, тож applyStatus має виконатись раніше.
  */
-export function applyVisibility(svg: SVGSVGElement, hidden: ReadonlySet<Difficulty>, onlyOpen: boolean) {
+export function applyVisibility(svg: SVGSVGElement, hidden: ReadonlySet<Difficulty>, opts: VisibilityOptions) {
   svg.querySelectorAll<SVGElement>(GROUPS).forEach((el) => {
     let hide: boolean;
     if (el.dataset.kind === "lift") {
       // підйомник ховаємо, якщо всі траси, на які він веде, приховані
-      const served = trailsByLift.get(el.dataset.lift ?? "") ?? [];
+      const lift = el.dataset.lift ?? "";
+      const served = trailsByLift.get(lift) ?? [];
       hide = served.length > 0 && served.every((t) => hidden.has(t.difficulty));
+      if (opts.eveningOnly && !eveningLiftIds.has(lift)) hide = true;
     } else {
       const diffs = (el.dataset.diff ?? "").split(" ").filter(Boolean) as Difficulty[];
       hide = diffs.length > 0 && diffs.every((d) => hidden.has(d));
+      if (opts.eveningOnly) {
+        // з'єднання між трасами лишаємо, якщо хоч одна з них вечірня
+        const names = (el.dataset.trail ?? "").split(" ").filter(Boolean);
+        if (!names.some((n) => trailById.get(n)?.evening)) hide = true;
+      }
     }
-    if (onlyOpen && el.dataset.status === "closed") hide = true;
+    if (opts.onlyOpen && el.dataset.status === "closed") hide = true;
     el.toggleAttribute("data-hidden", hide);
   });
 }

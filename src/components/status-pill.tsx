@@ -16,6 +16,8 @@ export function StatusPill() {
   const loading = useStatus((s) => s.loading);
   const onlyOpen = useFilters((s) => s.onlyOpen);
   const setOnlyOpen = useFilters((s) => s.setOnlyOpen);
+  const eveningOnly = useFilters((s) => s.eveningOnly);
+  const setEveningOnly = useFilters((s) => s.setEveningOnly);
 
   const time = data
     ? new Date(data.fetchedAt).toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" })
@@ -55,6 +57,20 @@ export function StatusPill() {
         }`}
       >
         Лише відкриті
+      </button>
+
+      <button
+        type="button"
+        aria-pressed={eveningOnly}
+        onClick={() => setEveningOnly(!eveningOnly)}
+        className={`flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-xs font-medium shadow-lg ring-1 ring-black/5 dark:ring-white/10 ${
+          eveningOnly ? "bg-indigo-600 text-white" : "bg-white/95 text-zinc-700 dark:bg-zinc-900/95 dark:text-zinc-200"
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="size-3.5" fill="currentColor" aria-hidden="true">
+          <path d="M20.7 14.4A8.5 8.5 0 0 1 9.6 3.3a.7.7 0 0 0-.9-.9A10 10 0 1 0 21.6 15.3a.7.7 0 0 0-.9-.9Z" />
+        </svg>
+        Вечірнє
       </button>
     </div>
   );

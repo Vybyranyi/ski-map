@@ -49,6 +49,8 @@ const trails = Object.values(mapData.tracksData)
       top: num(t.info.top_height),
       distance: num(t.info.distance),
       notes: (v2?.notes ?? []).map((n) => n.text),
+      // примітка Буковеля «Траса доступна для вечірнього катання»
+      evening: (v2?.notes ?? []).some((n) => /вечірн/i.test(n.text)),
       freeride: v2?.isFreeRide ?? false,
       svg: [],
     };
