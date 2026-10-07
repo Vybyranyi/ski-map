@@ -9,7 +9,8 @@
     "lint": "eslint",
     "build:map": "node scripts/build-map.mjs",
     "calibrate:map": "node scripts/calibrate-map.mjs",
-    "extract:geometry": "node scripts/extract-geometry.mjs"
+    "extract:geometry": "node scripts/extract-geometry.mjs",
+    "make:icons": "node scripts/make-icons.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
@@ -26,6 +27,7 @@
     "cheerio": "^1.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
